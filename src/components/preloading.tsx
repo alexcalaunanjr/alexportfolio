@@ -77,8 +77,8 @@ export function Preloading({ isVisible }: PreloadingProps) {
             ease: 'easeOut',
           }}
         >
-          <h2 className='text-2xl md:text-7xl  text-white mb-2'>
-            ACJR
+          <h2 className='text-2xl md:text-5xl  text-white mb-2'>
+            Loading
           </h2>
         </motion.div>
       </div>

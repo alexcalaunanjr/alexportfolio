@@ -9,8 +9,10 @@ import { heroOption } from '@/lib/particles/heroOption';
 import { Hero } from '@/components/Hero/hero';
 // components
 import { Preloading } from '@/components/preloading';
+import { FloatingMenu } from '@/components/Hero/floating-menu';
 // motion
 import { AnimatePresence } from 'motion/react';
+import { AboutMe } from '@/components/About_Me/about-me';
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -28,7 +30,7 @@ export default function Home() {
       // Maximum loading time fallback
       const maxTimer = setTimeout(() => {
         setIsLoading(false);
-      }, 1200); 
+      }, 1200);
       return () => clearTimeout(maxTimer);
     }
   }, [isAvatarLoaded]);
@@ -47,21 +49,11 @@ export default function Home() {
       {/* HERO */}
       <Hero />
 
-      {/* random section to test things (min-h-screen) */}
-      <div
-        className='min-h-screen w-full bg-transparent dark:bg-gray-800 flex
-        items-center justify-center relative z-20'
-      >
-        <h2 className='text-4xl font-semibold text-gray-900 dark:text-white'>
-          Random Section
-        </h2>
-        <p className='text-lg text-gray-700 dark:text-gray-300 mt-2'>
-          This is a random section to test the layout.
-        </p>
-      </div>
+      {/* ABOUT ME */}
+      <AboutMe />
 
-      {/* random section to test things (min-h-screen) */}
-      <div
+      {/* PROJECTS */}
+      {/* <div
         className='min-h-screen w-full bg-transparent dark:bg-gray-800 flex
         items-center justify-center relative z-20'
       >
@@ -71,7 +63,12 @@ export default function Home() {
         <p className='text-lg text-gray-700 dark:text-gray-300 mt-2'>
           This is a random section to test the layout.
         </p>
-      </div>
+      </div> */}
+
+      {/* CONTACT ME */}
+
+      {/* Floating Menu */}
+      <FloatingMenu />
     </div>
   );
 }

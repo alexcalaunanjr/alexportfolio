@@ -178,7 +178,11 @@
 
 html {
   scroll-behavior: smooth;
+  /* set "overscroll background" from white to black */
+  @apply bg-black 
 }
+
+
 
 /************************ ANIMATIONS ************************/
 /* Custom gradient animations */
