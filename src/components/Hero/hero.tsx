@@ -6,10 +6,10 @@ import { useRef, useState, useEffect } from 'react';
 import { Avatar } from '@/components/avatar';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
-// components
-import { HeroButton } from '@/components/Hero/hero-button';
 // icons
-import { TbBriefcase, TbBrandGithub, TbBrandLinkedin } from 'react-icons/tb';
+import { ChevronsDown } from 'lucide-react';
+// components
+import Link from 'next/link';
 // motion
 import { motion } from 'motion/react';
 
@@ -111,10 +111,7 @@ export function Hero() {
           <pointLight position={[5, 5, 5]} intensity={20} />
           <pointLight position={[-5, 5, 5]} intensity={1.5} />
           <directionalLight position={[0, 10, 5]} intensity={5} />
-          <Avatar
-            position={avatarPosition}
-            onHover={handleAvatarHover}
-          />
+          <Avatar position={avatarPosition} onHover={handleAvatarHover} />
           {!isMobile && (
             <OrbitControls
               enablePan={false}
@@ -130,7 +127,7 @@ export function Hero() {
         {/* Top left text */}
         <div className='absolute md:top-20 md:left-20 top-10 left-8 text-left'>
           <motion.h1
-            className='text-2xl sm:text-5xl md:text-6xl font-bold text-white mb-4'
+            className='text-3xl sm:text-5xl md:text-6xl font-bold text-white mb-4'
             initial={{ y: 30, opacity: 0, filter: 'blur(10px)' }}
             animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
             transition={{
@@ -154,42 +151,35 @@ export function Hero() {
               delay: isAvatarLoaded ? 0.5 : 1.4,
             }}
           >
-            <span className='border-b border-sky-500'>Full-stack developer</span> passionate in building applications that help people become the best version of themselves through tech.
+            <span className='border-b border-sky-500 font-bold animate-gradient-x'>
+              Full-stack developer
+            </span>{' '}
+            passionate in building applications that help people become the best
+            version of themselves through tech.
           </motion.p>
         </div>
 
-        {/* Bottom buttons */}
-        <motion.div
-          initial={{ y: 30, opacity: 0, filter: 'blur(10px)' }}
-          animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
-          transition={{
-            duration: 0.5,
-            ease: 'easeOut',
-            delay: isAvatarLoaded ? 0.7 : 1.6,
-          }}
-          className='flex justify-center items-center gap-3 z-50 absolute bottom-40 sm:bottom-15 text-center left-1/2 transform -translate-x-1/2'
-        >
-          {/* GITHUB */}
-          <HeroButton
-            href='https://github.com/alexcalaunanjr'
-            icon={<TbBrandGithub className='w-8 h-8' />}
-            label='GitHub'
-          />
-
-          {/* LINKEDIN */}
-          <HeroButton
-            href='https://www.linkedin.com/in/alexander-calaunan-jr-a8b8b4136/'
-            icon={<TbBrandLinkedin className='w-8 h-8' />}
-            label='LinkedIn'
-          />
-
-          {/* PROJECTS */}
-          <HeroButton
-            href='#projects'
-            icon={<TbBriefcase className='w-8 h-8' />}
-            label='Projects'
-          />
-        </motion.div>
+        {/* button to invite user to scroll */}
+        <Link href={`#about_me`}>
+          <motion.div
+            initial={{ y: 30, opacity: 0, filter: 'blur(10px)' }}
+            animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
+            transition={{
+              duration: 0.5,
+              ease: 'easeOut',
+              delay: isAvatarLoaded ? 0.7 : 1.6,
+            }}
+            className='flex flex-col justify-center items-center gap-3 z-50 absolute bottom-35 sm:bottom-15 text-center left-1/2 transform -translate-x-1/2 pointer-events-auto text-slate-400 hover:text-white transition-colors duration-300'
+          >
+            <div className='font-mono text-sm'>
+              <span className='text-green-400'>$</span>{' '}
+              <span className='text-white'> cd about_me/</span>
+              <span className='animate-pulse text-white'>_</span>
+            </div>
+            {/* chevrons */}
+            <ChevronsDown className='sm:w-8 sm:h-8 animate-bounce' />
+          </motion.div>
+        </Link>
       </div>
     </section>
   );
