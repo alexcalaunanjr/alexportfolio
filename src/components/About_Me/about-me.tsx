@@ -69,7 +69,7 @@ export function AboutMe() {
 
     <section
       id='about_me'
-      className='z-20 min-h-screen flex flex-col items-start justify-start p-4 md:px-15 lg:px-40 md:py-5'
+      className='z-20 min-h-screen w-full flex flex-col items-start justify-start p-4 md:px-15 lg:px-40 md:py-5'
     >
       {/* TITLE */}
       <Link href={`#about_me`}>

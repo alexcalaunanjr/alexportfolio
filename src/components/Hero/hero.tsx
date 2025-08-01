@@ -91,7 +91,7 @@ export function Hero() {
   }, []);
 
   return (
-    <section className='flex flex-col justify-center bg-gradient-to-b from-transparent via-indigo-300/40 to-transparent w-full items-center min-h-screen z-20 relative'>
+    <section id='hero' className='flex flex-col justify-center bg-gradient-to-b from-transparent via-indigo-300/40 to-transparent w-full items-center min-h-screen z-20 relative'>
       {/* Avatar Container with CSS Glow */}
       <div className='relative z-20'>
         {/* Avatar Glow Effect - Only appears when avatar is hovered */}
@@ -125,7 +125,7 @@ export function Hero() {
       {/* Overlay Text */}
       <div className='absolute inset-0 pointer-events-none z-30'>
         {/* Top left text */}
-        <div className='absolute md:top-20 md:left-20 top-10 left-8 text-left'>
+        <div className='px-8 py-10 md:p-20 text-left'>
           <motion.h1
             className='text-3xl sm:text-5xl md:text-6xl font-bold text-white mb-4'
             initial={{ y: 30, opacity: 0, filter: 'blur(10px)' }}
@@ -154,8 +154,7 @@ export function Hero() {
             <span className='border-b border-sky-500 font-bold animate-gradient-x'>
               Full-stack developer
             </span>{' '}
-            passionate in building applications that help people become the best
-            version of themselves through tech.
+            who reaches for the stars to build applications that help to improve people's lives through tech.
           </motion.p>
         </div>
 
@@ -169,7 +168,7 @@ export function Hero() {
               ease: 'easeOut',
               delay: isAvatarLoaded ? 0.7 : 1.6,
             }}
-            className='flex flex-col justify-center items-center gap-3 z-50 absolute bottom-35 sm:bottom-15 text-center left-1/2 transform -translate-x-1/2 pointer-events-auto text-slate-400 hover:text-white transition-colors duration-300'
+            className='flex flex-col justify-center items-center gap-3 z-50 absolute bottom-50 sm:bottom-20 text-center left-1/2 transform -translate-x-1/2 pointer-events-auto text-slate-400 hover:text-white transition-colors duration-300'
           >
             <div className='font-mono text-sm'>
               <span className='text-green-400'>$</span>{' '}
