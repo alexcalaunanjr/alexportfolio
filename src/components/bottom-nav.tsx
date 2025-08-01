@@ -23,7 +23,7 @@ export const BottomNav = () => {
     setIsOpen(!isOpen);
   };
 
-  // Function to determine which section is currently in view
+  // Function to determine which section is currently in view (for styling active link)
   const getCurrentSection = useCallback(() => {
     const sections = ['hero', 'about_me', 'projects', 'contact'];
     const scrollPosition = window.scrollY + window.innerHeight / 3; // Offset for better detection
@@ -94,7 +94,7 @@ export const BottomNav = () => {
       className={`
         fixed z-30 left-1/2 transform -translate-x-1/2 mx-auto w-full
         transition-all duration-500 ease-in-out
-        ${isShrunk ? '-bottom-20' : 'bottom-6'}
+        ${isShrunk ? '-bottom-65' : 'bottom-6'}
       `}
     >
       <div className='flex justify-between items-center h-full w-full'>

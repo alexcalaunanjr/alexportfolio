@@ -70,6 +70,33 @@ export function Avatar({ onHover, ...props }: AvatarProps) {
   );
 
   const [animation] = useState<string>(idleAnimation?.name || 'floating');
+  const [isAnimationReady, setIsAnimationReady] = useState(false);
+
+  // Start animation immediately when available
+  useEffect(() => {
+    if (actions && actions[animation] && !isAnimationReady) {
+      // Start animation immediately without fade-in delay
+      const action = actions[animation];
+      if (action) {
+        action.reset();
+        action.setEffectiveTimeScale(1);
+        action.setEffectiveWeight(1);
+        action.enabled = true;
+        action.play();
+        setIsAnimationReady(true);
+      }
+    }
+  }, [actions, animation, isAnimationReady]);
+
+  // Ensure animation continues playing
+  useEffect(() => {
+    if (actions && actions[animation] && isAnimationReady) {
+      const action = actions[animation];
+      if (action && !action.isRunning()) {
+        action.play();
+      }
+    }
+  });
 
   // Hover handlers
   const handlePointerEnter = () => {
@@ -82,15 +109,6 @@ export function Avatar({ onHover, ...props }: AvatarProps) {
     document.body.style.cursor = 'default';
   };
 
-  useEffect(() => {
-    if (actions && actions[animation]) {
-      actions[animation]?.reset().fadeIn(0.5).play();
-      return () => {
-        actions[animation]?.fadeOut(0.5);
-      };
-    }
-  }, [animation, actions]);
-
   return (
     <group
       {...props}
@@ -98,6 +116,8 @@ export function Avatar({ onHover, ...props }: AvatarProps) {
       ref={group}
       onPointerEnter={handlePointerEnter}
       onPointerLeave={handlePointerLeave}
+      // Hide avatar until animation is ready to prevent T-pose flash
+      visible={isAnimationReady}
     >
       <primitive object={nodes.Hips} />
       <skinnedMesh
