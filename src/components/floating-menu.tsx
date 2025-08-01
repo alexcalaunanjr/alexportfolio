@@ -2,14 +2,14 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { HeroButton } from './hero-button';
+import { HeroButton } from './Hero/hero-button';
 import {
-  TbBriefcase,
   TbBrandGithub,
   TbBrandLinkedin,
+  TbFileCv,
   TbX,
 } from 'react-icons/tb';
-import { MdOutlineSwitchAccessShortcut } from "react-icons/md";
+import { MdOutlineSwitchAccessShortcut } from 'react-icons/md';
 
 export function FloatingMenu() {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,18 +21,18 @@ export function FloatingMenu() {
   const menuItems = [
     {
       href: 'https://github.com/alexcalaunanjr',
-      icon: <TbBrandGithub className='w-6 h-6' />,
+      icon: <TbBrandGithub size={22} />,
       label: 'GitHub',
     },
     {
       href: 'https://www.linkedin.com/in/alexander-calaunan-jr-a8b8b4136/',
-      icon: <TbBrandLinkedin className='w-6 h-6' />,
+      icon: <TbBrandLinkedin size={22} />,
       label: 'LinkedIn',
     },
     {
-      href: '#about_me',
-      icon: <TbBriefcase className='w-6 h-6' />,
-      label: 'Projects',
+      href: '#projects',
+      icon: <TbFileCv size={22} />,
+      label: 'Resume',
     },
   ];
 
@@ -75,11 +75,20 @@ export function FloatingMenu() {
                 }}
                 onClick={() => setIsOpen(false)}
               >
-                <HeroButton
-                  href={item.href}
-                  icon={item.icon}
-                  label={item.label}
-                />
+                {item.label !== 'Projects' ? (
+                  <HeroButton
+                    href={item.href}
+                    icon={item.icon}
+                    label={item.label}
+                  />
+                ) : (
+                  <HeroButton
+                    href={item.href}
+                    icon={item.icon}
+                    label={item.label}
+                    target='_self'
+                  />
+                )}
               </motion.div>
             ))}
           </motion.div>
@@ -89,8 +98,12 @@ export function FloatingMenu() {
       {/* Main Floating Button */}
       <motion.button
         onClick={toggleMenu}
-        className={`z-50 text-lg p-3 rounded-full ring-zinc-400 ring-2 text-white hover:cursor-pointer pointer-events-auto hover:bg-blue-300/80 transition-all duration-300
-          ${isOpen ? 'bg-gradient-to-r from-indigo-400/80 to-sky-300/80 opacity-100' : 'bg-transparent opacity-70'}
+        className={`z-50 text-lg p-3 rounded-full ring-zinc-400 ring-1 text-white hover:cursor-pointer pointer-events-auto backdrop-blur-md hover:bg-blue-300/80 transition-all duration-300
+          ${
+            isOpen
+              ? 'bg-gradient-to-r from-indigo-400/80 to-sky-300/80'
+              : 'bg-gradient-to-br from-transparent to-slate-700'
+          }
           hover:opacity-100`}
         animate={{ rotate: isOpen ? 180 : 0 }}
         transition={{ duration: 0.3 }}
@@ -106,7 +119,7 @@ export function FloatingMenu() {
                 exit={{ rotate: 90, opacity: 0 }}
                 transition={{ duration: 0.2 }}
               >
-                <TbX className='w-6 h-6' />
+                <TbX size={22} />
               </motion.div>
             ) : (
               <motion.div
@@ -116,7 +129,7 @@ export function FloatingMenu() {
                 exit={{ rotate: 90, opacity: 0 }}
                 transition={{ duration: 0.2 }}
               >
-                <MdOutlineSwitchAccessShortcut className='w-6 h-6' />
+                <MdOutlineSwitchAccessShortcut size={22} />
               </motion.div>
             )}
           </AnimatePresence>

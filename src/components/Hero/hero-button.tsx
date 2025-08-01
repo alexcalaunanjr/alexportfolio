@@ -10,15 +10,16 @@ interface HeroButtonsProps {
   href: string;
   icon: React.ReactNode;
   label: string;
+  target?: string;
 }
 
-export function HeroButton({ href, icon, label }: HeroButtonsProps) {
+export function HeroButton({ href, icon, label, target }: HeroButtonsProps) {
   return (
     <HoverCard openDelay={100} closeDelay={100}>
       <HoverCardTrigger asChild>
         <Link
           href={href}
-          target='_blank'
+          target={target || '_blank'}
           rel='noopener noreferrer'
           className='relative inline-flex group items-center'
         >
