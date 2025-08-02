@@ -57,7 +57,7 @@ export function TechStackBento() {
                   {tech.icon}
                 </div>
               </TooltipTrigger>
-              <TooltipContent side='top' className='bg-slate-800 text-white p-2 rounded-lg shadow-lg'>
+              <TooltipContent side='top' className='bg-slate-800 text-sm text-white p-2 rounded-lg shadow-lg'>
                 {tech.title}
               </TooltipContent>
             </Tooltip>

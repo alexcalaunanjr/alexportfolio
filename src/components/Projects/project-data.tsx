@@ -164,7 +164,7 @@ export const projectsData: ProjectData[] = [
       },
       {
         icon: <p className='w-6 h-6'>YOLOv8</p>,
-        title: 'Python',
+        title: 'Ultralytics YOLOv8',
       },
     ],
     image: '/images/tcf.webp',
