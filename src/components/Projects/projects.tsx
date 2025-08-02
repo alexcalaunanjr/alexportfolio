@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { motion } from 'motion/react';
 import { ProjectCard } from './ProjectCard';
 // project data
 import { projectsData } from './project-data'; 
@@ -20,11 +21,44 @@ export function Projects() {
       </Link>
 
       {/* PROJECTS HERE */}
-      <div className='flex flex-col gap-4 w-full'>
-        {projectsData.map((project) => (
-          <ProjectCard key={project.id} project={project} />
+      <motion.div 
+        className='flex flex-col gap-4 w-full'
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={{
+          hidden: {},
+          visible: {
+            transition: {
+              staggerChildren: 0.2
+            }
+          }
+        }}
+      >
+        {projectsData.map((project, index) => (
+          <motion.div
+            key={project.id}
+            variants={{
+              hidden: { 
+                opacity: 0, 
+                y: 50,
+                scale: 0.95
+              },
+              visible: { 
+                opacity: 1, 
+                y: 0,
+                scale: 1,
+                transition: {
+                  duration: 0.6,
+                  ease: [0.25, 0.46, 0.45, 0.94]
+                }
+              }
+            }}
+          >
+            <ProjectCard project={project} />
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </section>
   );
 }
