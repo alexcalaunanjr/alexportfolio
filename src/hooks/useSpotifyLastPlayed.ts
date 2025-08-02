@@ -39,7 +39,7 @@ export const useSpotifyLastPlayed = () => {
 
       return response.json();
     },
-    staleTime: 30 * 1000,
+    refetchIntervalInBackground: true, // Keep the data fresh in the background
     refetchInterval: 1 * 60 * 1000, // Refetch every 1 minute
     retry: 3, // TanStack Query will retry 3 times with exponential backoff
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000), // Exponential backoff, max 30s

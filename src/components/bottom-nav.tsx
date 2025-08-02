@@ -23,7 +23,7 @@ export const BottomNav = () => {
     setIsOpen(!isOpen);
   };
 
-  // Function to determine which section is currently in view (for styling active link)
+  // Function to determine which section is currently in view
   const getCurrentSection = useCallback(() => {
     const sections = ['hero', 'about_me', 'projects', 'contact'];
     const scrollPosition = window.scrollY + window.innerHeight / 3; // Offset for better detection
@@ -108,10 +108,10 @@ export const BottomNav = () => {
                 className='font-semibold text-white whitespace-nowrap'
               >
                 <FaUserAstronaut 
-                  className={`transition-colors duration-300 ${
+                  className={`transition-all duration-300 ${
                     activeSection === 'hero' 
-                      ? 'text-sky-600 scale-110' 
-                      : 'text-slate-300 hover:text-sky-300'
+                      ? 'text-sky-300 scale-120' 
+                      : 'text-slate-300 hover:text-sky-200'
                   }`} 
                 />
               </Link>
@@ -123,10 +123,10 @@ export const BottomNav = () => {
               >
                 <PiHandPeace
                   size={20}
-                  className={`transition-colors duration-300 ${
+                  className={`transition-all duration-300 ${
                     activeSection === 'about_me' 
-                      ? 'text-sky-600 scale-110' 
-                      : 'text-slate-300 hover:text-sky-300'
+                      ? 'text-sky-300 scale-120' 
+                      : 'text-slate-300 hover:text-sky-200'
                   }`}
                 />
               </Link>
@@ -137,10 +137,10 @@ export const BottomNav = () => {
               >
                 <LuAppWindowMac
                   size={20}
-                  className={`transition-colors duration-300 ${
+                  className={`transition-all duration-300 ${
                     activeSection === 'projects' 
-                      ? 'text-sky-600 scale-110' 
-                      : 'text-slate-300 hover:text-sky-300'
+                      ? 'text-sky-300 scale-120' 
+                      : 'text-slate-300 hover:text-sky-200'
                   }`}
                 />
               </Link>
@@ -151,10 +151,10 @@ export const BottomNav = () => {
               >
                 <LuMail
                   size={20}
-                  className={`transition-colors duration-300 ${
+                  className={`transition-all duration-300 ${
                     activeSection === 'contact' 
-                      ? 'text-sky-600 scale-110' 
-                      : 'text-slate-300 hover:text-sky-300'
+                      ? 'text-sky-300 scale-120' 
+                      : 'text-slate-300 hover:text-sky-200'
                   }`}
                 />
               </Link>
@@ -224,10 +224,10 @@ export const BottomNav = () => {
         {/* Main Floating Button */}
         <motion.button
           onClick={toggleMenu}
-          className={`z-50 text-lg p-3 rounded-full ring-zinc-400 ring-1 text-white hover:cursor-pointer pointer-events-auto backdrop-blur-md hover:bg-blue-300/80 transition-all duration-300
+          className={`z-50 text-lg p-3 rounded-full ring-zinc-400 ring-1 text-white hover:cursor-pointer pointer-events-auto backdrop-blur-md hover:bg-sky-300/80 transition-all duration-300
                   ${
                     isOpen
-                      ? 'bg-gradient-to-r from-indigo-400/80 to-sky-300/80'
+                      ? 'bg-gradient-to-r from-emerald-400/80 to-sky-300/80'
                       : 'bg-gradient-to-br from-transparent to-slate-700'
                   }
                   hover:opacity-100`}

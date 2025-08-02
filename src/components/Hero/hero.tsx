@@ -12,6 +12,9 @@ import { ChevronsDown } from 'lucide-react';
 import Link from 'next/link';
 // motion
 import { motion } from 'motion/react';
+// tsparticles
+import { ParticlesComponent } from '@/lib/particles/Particles';
+import { heroOption } from '@/lib/particles/heroOption';
 
 export function Hero() {
   // states and refs for threejs avatar
@@ -91,7 +94,15 @@ export function Hero() {
   }, []);
 
   return (
-    <section id='hero' className='flex flex-col justify-center bg-gradient-to-b from-transparent via-indigo-300/40 to-transparent w-full items-center min-h-screen z-20 relative'>
+    <section
+      id='hero'
+      className='flex flex-col justify-center bg-gradient-to-b from-transparent via-slate-700 to-transparent w-full items-center min-h-screen z-20 relative'
+    >
+      {/* Background Particles */}
+      <div className='absolute left-0 right-0 h-full z-20'>
+        <ParticlesComponent options={heroOption} id={'tsparticles1'} />
+      </div>
+
       {/* Avatar Container with CSS Glow */}
       <div className='relative z-20'>
         {/* Avatar Glow Effect - Only appears when avatar is hovered */}
@@ -154,7 +165,8 @@ export function Hero() {
             <span className='border-b border-sky-500 font-bold animate-gradient-x'>
               Full-stack developer
             </span>{' '}
-            who reaches for the stars to build applications that help to improve people&apos;s lives through tech.
+            who reaches for the stars to build applications that help to improve
+            people&apos;s lives through tech.
           </motion.p>
         </div>
 

@@ -25,7 +25,7 @@ import {
 } from 'react-icons/si';
 import { RiNextjsLine } from 'react-icons/ri';
 
-export function TechStack() {
+export function TechStackBento() {
   // list of tech stack icons
   const techStackIcons = [
     { icon: <SiReact className='w-8 h-8 lg:w-10 lg:h-10' />, title: 'React' },
@@ -43,7 +43,7 @@ export function TechStack() {
   ];
 
   return (
-    <Card className='col-span-1 md:col-span-3 bg-gradient-to-b from-slate-400/20 to-sky-800/20 border border-slate-700 py-6 text-white hover:bg-gradient-to-tl hover:from-slate-500/30 hover:to-sky-700/30 transition-colors duration-300 '>
+    <Card className='col-span-1 md:col-span-3 bg-gradient-to-b from-transparent to-slate-700/70 hover:to-slate-600/70 border border-slate-500 py-6 text-white transition-colors duration-300'>
       <CardHeader>
         <CardTitle className='md:text-xl'>Tech Stack</CardTitle>
       </CardHeader>
