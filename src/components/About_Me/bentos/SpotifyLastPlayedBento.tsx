@@ -7,19 +7,19 @@ import {
   CardHeader,
   CardTitle,
   CardFooter,
-} from './../ui/card';
+} from '../../ui/card';
 // icons
 import { SiSpotify } from 'react-icons/si';
 
-export function SpotifyLastPlayed() {
+export function SpotifyLastPlayedBento() {
   const { track, isLoading, error, isError } = useFormattedSpotifyTrack();
 
   if (isLoading) {
     return (
-      <Card className='col-span-1 bg-gradient-to-br from-slate-400/20 to-sky-800/20 border border-slate-700 py-6'>
+      <Card className='col-span-1 bg-gradient-to-b from-transparent to-slate-700/70 hover:to-slate-600/70 border border-slate-500 py-6 text-white transition-colors duration-300 overflow-hidden'>
         <CardHeader>
           <CardTitle className='md:text-xl text-white'>
-            What I&apos;m Listening To
+            Last Played Track
           </CardTitle>
         </CardHeader>
         <CardContent className='flex items-center gap-3'>
@@ -36,10 +36,10 @@ export function SpotifyLastPlayed() {
 
   if (isError) {
     return (
-      <Card className='col-span-1 bg-gradient-to-br from-slate-400/20 to-sky-800/20 border border-slate-700 py-6'>
+      <Card className='col-span-1 bg-gradient-to-b from-transparent to-slate-700/70 hover:to-slate-600/70 border border-slate-500 py-6 text-white transition-colors duration-300 overflow-hidden'>
         <CardHeader>
           <CardTitle className='md:text-xl text-white'>
-            What I&apos;m Listening To
+            Last Played Track
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -53,10 +53,10 @@ export function SpotifyLastPlayed() {
 
   if (!track) {
     return (
-      <Card className='col-span-1 bg-gradient-to-br from-slate-400/20 to-sky-800/20 border border-slate-700 py-6'>
+      <Card className='col-span-1 bg-gradient-to-b from-transparent to-slate-700/70 hover:to-slate-600/70 border border-slate-500 py-6 text-white transition-colors duration-300 overflow-hidden'>
         <CardHeader className='w-full flex justify-between items-center'>
           <CardTitle className='md:text-xl text-white'>
-            What I&apos;m Listening To
+            Last Played Track
           </CardTitle>
           <SiSpotify className='text-green-500 w-6 h-6' />
         </CardHeader>
@@ -68,9 +68,9 @@ export function SpotifyLastPlayed() {
   }
 
   return (
-    <Card className='col-span-1 bg-gradient-to-b from-slate-400/20 to-sky-800/20 border border-slate-700 py-6 text-white hover:bg-gradient-to-tl hover:from-slate-500/30 hover:to-sky-700/30 transition-colors duration-300 overflow-hidden'>
+    <Card className='col-span-1 bg-gradient-to-b from-transparent to-slate-700/70 hover:to-slate-600/70 border border-slate-500 py-6 text-white transition-colors duration-300 overflow-hidden'>
       <CardHeader className='w-full flex justify-between items-center'>
-        <CardTitle className='md:text-xl'>What I&apos;m Listening To</CardTitle>
+        <CardTitle className='md:text-xl'>Last Played Track</CardTitle>
         <Link
           href={'https://open.spotify.com/user/boiboikikoy?si=5d268ddc747c4818'}
           target='_blank'

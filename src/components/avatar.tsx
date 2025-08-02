@@ -101,7 +101,7 @@ export function Avatar({ onHover, ...props }: AvatarProps) {
   // Hover handlers
   const handlePointerEnter = () => {
     onHover?.(true);
-    document.body.style.cursor = 'pointer';
+    document.body.style.cursor = 'grabbing';
   };
 
   const handlePointerLeave = () => {

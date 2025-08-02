@@ -179,10 +179,8 @@
 html {
   scroll-behavior: smooth;
   /* set "overscroll background" from white to black */
-  @apply bg-black 
+  @apply bg-black;
 }
-
-
 
 /************************ ANIMATIONS ************************/
 /* Custom gradient animations */
@@ -201,8 +199,8 @@ html {
 .animate-gradient-x {
   background: linear-gradient(
     45deg,
-    #667eea 0%,
-    #a984cf 25%,
+    #66a4ea 0%,
+    #239494 25%,
     #667eea 50%,
     #50c5b0 75%,
     #667eea 100%
@@ -213,4 +211,21 @@ html {
   -webkit-text-fill-color: transparent;
   color: transparent;
   animation: gradient-x 5s ease-in-out infinite;
+}
+
+/* Line clamp utilities for text truncation */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }

@@ -24,9 +24,9 @@ export function HeroButton({ href, icon, label, target }: HeroButtonsProps) {
           className='relative inline-flex group items-center'
         >
           {/* Button glow */}
-          <div className='absolute z-10 -inset-1 opacity-80 bg-gradient-to-r from-indigo-400 to-sky-500 rounded-full blur-sm group-hover:blur-lg group-hover:opacity-100 transition-all duration-300 group-hover:animate-pulse'></div>
+          <div className='absolute z-10 -inset-1 opacity-80 bg-gradient-to-r from-emerald-400 to-sky-500 rounded-full blur-sm group-hover:blur-lg group-hover:opacity-100 transition-all duration-300 group-hover:animate-pulse'></div>
           {/* Button */}
-          <button className='bg-black/80 z-50 text-lg p-3 rounded-full ring-zinc-400 ring-2 text-white hover:cursor-pointer pointer-events-auto hover:bg-sky-400/40 transition-colors duration-300'>
+          <button className='bg-black/80 z-50 text-lg p-3 rounded-full ring-zinc-400 ring-2 text-white hover:cursor-pointer pointer-events-auto hover:bg-slate-700 transition-all duration-300'>
             {icon}
           </button>
         </Link>
