@@ -10,6 +10,8 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import Image from 'next/image';
+// tooltip
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 // icons
 import { X, Minus, ExternalLink, Video } from 'lucide-react';
 import { RiExpandLeftRightFill } from 'react-icons/ri';
@@ -142,7 +144,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
               <CardTitle className='text-xl text-white font-bold mb-2'>
                 {project.title}
               </CardTitle>
-              <CardDescription className='line-clamp-3 text-base text-white'>
+              <CardDescription className='text-base text-white'>
                 {project.description}
               </CardDescription>
 
@@ -150,12 +152,21 @@ export function ProjectCard({ project }: ProjectCardProps) {
               <h3 className='mt-4 text-lg font-bold text-white'>Tech Stack</h3>
               <div className='mt-2 flex flex-wrap gap-4'>
                 {project.technologies.map((tech) => (
-                  <Fragment key={tech.title}>{tech.icon}</Fragment>
+                  <Tooltip key={tech.title} delayDuration={100}>
+                    <TooltipTrigger className='flex items-center justify-center'>
+                      <div className='text-slate-400 hover:text-white transition-colors duration-300'>
+                        {tech.icon}
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent side='top' className='bg-slate-800 text-sm text-white p-2 rounded-lg shadow-lg'>
+                      {tech.title}
+                    </TooltipContent>
+                  </Tooltip>
                 ))}
               </div>
 
               {/* Links */}
-              <div className='mt-8 flex gap-4'>
+              <div className='mt-8 flex gap-4 text-sm'>
                 {project.githubUrl && (
                   <Link
                     href={project.githubUrl}
@@ -163,8 +174,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
                     rel='noopener noreferrer'
                     className='flex items-center gap-2 bg-slate-600 hover:bg-slate-500 border border-slate-200 py-2 px-4 rounded-full transition-colors duration-300'
                   >
-                    <SiGithub className='w-5 h-5' />
-                    GitHub Repo
+                    <SiGithub className='max-md:w-4 max-md:h-4 w-5 h-5' />
+                    Repo
                   </Link>
                 )}
                 {project.demoUrl && (
@@ -172,8 +183,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
                     onClick={handleVideoDemoClick}
                     className='flex items-center gap-2 bg-sky-200 hover:bg-sky-50 text-slate-700 border border-slate-200 py-2 px-4 rounded-full transition-colors duration-300 hover:cursor-pointer'
                   >
-                    <Video className='w-5 h-5' />
-                    Video Demo
+                    <Video className='max-md:w-4 max-md:h-4 w-5 h-5' />
+                    Demo
                   </button>
                 )}
                 {project.liveUrl && (
@@ -183,8 +194,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
                     rel='noopener noreferrer'
                     className='flex items-center gap-2 hover:bg-slate-800 border border-slate-200 py-2 px-4 rounded-full transition-colors duration-300'
                   >
-                    <ExternalLink className='w-5 h-5' />
-                    Link to Site
+                    <ExternalLink className='max-md:w-4 max-md:h-4 w-5 h-5' />
+                    Visit
                   </a>
                 )}
               </div>
