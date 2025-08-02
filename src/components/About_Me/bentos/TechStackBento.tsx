@@ -53,8 +53,9 @@ export function TechStackBento() {
           {techStackIcons.map((tech, index) => (
             <Tooltip key={index} delayDuration={100}>
               <TooltipTrigger className='flex items-center justify-center'>
-                <div className='text-slate-400 hover:text-white transition-colors duration-300'>
+                <div className='flex flex-col items-center text-slate-200 hover:text-white transition-colors duration-300'>
                   {tech.icon}
+                  <span className='block md:hidden text-xs text-center mt-1'>{tech.title}</span>
                 </div>
               </TooltipTrigger>
               <TooltipContent side='top' className='bg-slate-800 text-sm text-white p-2 rounded-lg shadow-lg'>

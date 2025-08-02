@@ -199,6 +199,14 @@ export function ProjectCard({ project }: ProjectCardProps) {
                   </a>
                 )}
               </div>
+
+              {/* Awards (if any) */}
+              {project.awards && (
+                <div className='mt-6 flex items-center gap-2 '>
+                  <span className='font-semibold'>🏆</span>
+                  <span className='animate-gradient-x'>{project.awards.description}</span>
+                </div>
+              )}
             </motion.div>
           </CardContent>
         </Card>
