@@ -16,7 +16,7 @@ export function Projects() {
         <h2 className='relative text-3xl md:text-4xl font-bold text-white mb-6 group cursor-pointer'>
           <span className='text-slate-700'>#</span> Projects
           {/* Animated underline */}
-          <span className='absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-indigo-400 to-sky-500 transition-all duration-300 ease-out group-hover:w-full'></span>
+          <span className='absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-sky-500 transition-all duration-300 ease-out group-hover:w-full'></span>
         </h2>
       </Link>
 
