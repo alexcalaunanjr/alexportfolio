@@ -18,6 +18,9 @@ import { RiExpandLeftRightFill } from 'react-icons/ri';
 import { SiGithub } from 'react-icons/si';
 // types
 import { ProjectData } from '@/types';
+// magic ui
+import { InteractiveHoverButton } from '../magicui/interactive-hover-button';
+import { BorderBeam } from '../magicui/border-beam';
 
 interface ProjectCardProps {
   project: ProjectData;
@@ -71,7 +74,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
     <>
       {/* Original Card */}
       <motion.div ref={cardRef} className='cursor-default'>
-        <Card className='bg-gradient-to-br from-transparent to-slate-700/70 hover:from-black hover:to-slate-500/70 border border-slate-500 py-6 transition-colors duration-300'>
+        <Card className='relative bg-gradient-to-br from-transparent to-slate-700/70 hover:from-black hover:to-slate-500/70 border border-slate-500 py-6 transition-colors duration-300'>
           <CardContent className='flex max-md:flex-col max-md:items-center justify-center gap-4 md:gap-8 text-slate-200'>
             {/* IMAGE */}
             <motion.div
@@ -188,15 +191,16 @@ export function ProjectCard({ project }: ProjectCardProps) {
                   </button>
                 )}
                 {project.liveUrl && (
-                  <a
+                  <Link
                     href={project.liveUrl}
                     target='_blank'
                     rel='noopener noreferrer'
-                    className='flex items-center gap-2 hover:bg-slate-800 border border-slate-200 py-2 px-4 rounded-full transition-colors duration-300'
                   >
-                    <ExternalLink className='max-md:w-4 max-md:h-4 w-5 h-5' />
-                    Visit
-                  </a>
+                    <InteractiveHoverButton className='flex items-center gap-2 bg-transparent hover:bg-slate-800 border border-slate-200 py-2 px-6 rounded-full transition-colors duration-300'>
+                      <ExternalLink className='max-md:w-4 max-md:h-4 w-5 h-5' />
+                      Visit
+                    </InteractiveHoverButton>
+                  </Link>
                 )}
               </div>
 
@@ -209,6 +213,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
               )}
             </motion.div>
           </CardContent>
+          <BorderBeam duration={20} size={200} className='bg-gradient-to-l from-emerald-400 via-sky-300 to-transparent' />
         </Card>
       </motion.div>
 

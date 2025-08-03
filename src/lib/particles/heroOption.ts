@@ -9,7 +9,7 @@ export const heroOption: ISourceOptions = {
     opacity: 0,
   },
   style: {
-    height: '100vh',
+    height: '100%',
   },
   fullScreen: {
     enable: false,

@@ -10,13 +10,16 @@ import {
 } from '../../ui/card';
 // icons
 import { SiSpotify } from 'react-icons/si';
+// shine border
+import { ShineBorder } from '@/components/magicui/shine-border';
 
 export function SpotifyLastPlayedBento() {
   const { track, isLoading, error, isError } = useFormattedSpotifyTrack();
 
   if (isLoading) {
     return (
-      <Card className='col-span-1 bg-gradient-to-b from-transparent to-slate-700/70 hover:to-slate-600/70 border border-slate-500 py-6 text-white transition-colors duration-300 overflow-hidden'>
+      <Card className='relative col-span-1 bg-gradient-to-b from-transparent to-slate-700/70 hover:to-slate-600/70 border border-slate-500 py-6 text-white transition-colors duration-300 overflow-hidden'>
+        <ShineBorder shineColor={["#34d399", "#66a4ea", "#FFFFFF"]} />
         <CardHeader>
           <CardTitle className='md:text-xl text-white'>
             Last Played Track
@@ -36,7 +39,8 @@ export function SpotifyLastPlayedBento() {
 
   if (isError) {
     return (
-      <Card className='col-span-1 bg-gradient-to-b from-transparent to-slate-700/70 hover:to-slate-600/70 border border-slate-500 py-6 text-white transition-colors duration-300 overflow-hidden'>
+      <Card className='relative col-span-1 bg-gradient-to-b from-transparent to-slate-700/70 hover:to-slate-600/70 border border-slate-500 py-6 text-white transition-colors duration-300 overflow-hidden'>
+        <ShineBorder shineColor={["#34d399", "#66a4ea", "#FFFFFF"]} />
         <CardHeader>
           <CardTitle className='md:text-xl text-white'>
             Last Played Track
@@ -53,7 +57,8 @@ export function SpotifyLastPlayedBento() {
 
   if (!track) {
     return (
-      <Card className='col-span-1 bg-gradient-to-b from-transparent to-slate-700/70 hover:to-slate-600/70 border border-slate-500 py-6 text-white transition-colors duration-300 overflow-hidden'>
+      <Card className='relative col-span-1 bg-gradient-to-b from-transparent to-slate-700/70 hover:to-slate-600/70 border border-slate-500 py-6 text-white transition-colors duration-300 overflow-hidden'>
+        <ShineBorder shineColor={["#34d399", "#66a4ea", "#FFFFFF"]} />
         <CardHeader className='w-full flex justify-between items-center'>
           <CardTitle className='md:text-xl text-white'>
             Last Played Track
@@ -68,7 +73,8 @@ export function SpotifyLastPlayedBento() {
   }
 
   return (
-    <Card className='col-span-1 bg-gradient-to-b from-transparent to-slate-700/70 hover:to-slate-600/70 border border-slate-500 py-6 text-white transition-colors duration-300 overflow-hidden'>
+    <Card className='relative col-span-1 bg-gradient-to-b from-transparent to-slate-700/70 hover:to-slate-600/70 border border-slate-500 py-6 text-white transition-colors duration-300 overflow-hidden'>
+      <ShineBorder shineColor={["#34d399", "#66a4ea", "#FFFFFF"]} />
       <CardHeader className='w-full flex justify-between items-center'>
         <CardTitle className='md:text-xl'>Last Played Track</CardTitle>
         <Link
