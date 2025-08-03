@@ -4,6 +4,7 @@ import './globals.css';
 import QueryProvider from '@/components/providers/QueryProvider';
 // analytics
 import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 // fonts
 const geistSans = Geist({
@@ -41,8 +42,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${cairo.className} ${cabin.variable} antialiased`}
       >
-        <Analytics />
         <QueryProvider>{children}</QueryProvider>
+        
+        {/* analytics and insights */}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
