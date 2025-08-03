@@ -3,6 +3,7 @@
 import { Hero } from '@/components/Hero/hero';
 import { AboutMe } from '@/components/About_Me/about-me';
 import { Projects } from '@/components/Projects/projects';
+import { Contact } from '@/components/Contact/contact';
 import { BottomNav } from '@/components/bottom-nav';
 
 export default function Home() {
@@ -16,7 +17,7 @@ export default function Home() {
       {/* PROJECTS */}
       <Projects />
       {/* CONTACT ME */}
-
+      <Contact />
 
       {/* Bottom Nav */}
       <BottomNav />
