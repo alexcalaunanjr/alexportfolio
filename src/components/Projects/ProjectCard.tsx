@@ -20,7 +20,6 @@ import { SiGithub } from 'react-icons/si';
 import { ProjectData } from '@/types';
 // magic ui
 import { InteractiveHoverButton } from '../magicui/interactive-hover-button';
-import { BorderBeam } from '../magicui/border-beam';
 
 interface ProjectCardProps {
   project: ProjectData;
@@ -30,19 +29,11 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
-  // Prevent body scroll when modal is open
-  useEffect(() => {
-    if (isExpanded) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-
-    // Cleanup function to restore scroll when component unmounts
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isExpanded]);
+  // Optionally prevent body scroll when modal is open (disabled to prevent mobile resize issues)
+  // If you want to re-enable, use the CSS class approach above
+  // useEffect(() => {
+  //   // Scroll prevention code here
+  // }, [isExpanded]);
 
   // Handle escape key to close modal
   useEffect(() => {
@@ -74,7 +65,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
     <>
       {/* Original Card */}
       <motion.div ref={cardRef} className='cursor-default'>
-        <Card className='relative bg-gradient-to-br from-transparent to-slate-700/70 hover:from-black hover:to-slate-500/70 border border-slate-500 py-6 transition-colors duration-300'>
+        <Card className='bg-gradient-to-br from-transparent to-slate-700/70 hover:from-black hover:to-slate-500/70 border border-slate-500 py-6 transition-colors duration-300'>
           <CardContent className='flex max-md:flex-col max-md:items-center justify-center gap-4 md:gap-8 text-slate-200'>
             {/* IMAGE */}
             <motion.div
@@ -141,7 +132,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
             {/* DESC, TECH, LINKS */}
             <motion.div
               layoutId={`description-${project.id}`}
-              className='md:w-3/5'
+              className='w-full md:w-3/5'
             >
               {/* title and desc */}
               <CardTitle className='text-xl text-white font-bold mb-2'>
@@ -169,7 +160,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
               </div>
 
               {/* Links */}
-              <div className='mt-8 flex gap-4 text-sm'>
+              <div className='mt-8 flex gap-4 text-sm overflow-auto'>
                 {project.githubUrl && (
                   <Link
                     href={project.githubUrl}
@@ -213,7 +204,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
               )}
             </motion.div>
           </CardContent>
-          <BorderBeam duration={20} size={200} className='bg-gradient-to-l from-emerald-400 via-sky-300 to-transparent' />
         </Card>
       </motion.div>
 

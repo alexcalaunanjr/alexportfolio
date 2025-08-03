@@ -23,7 +23,7 @@ export const BottomNav = () => {
     setIsOpen(!isOpen);
   };
 
-  // Function to determine which section is currently in view
+  // Function to determine which section is currently in view (for styling active link)
   const getCurrentSection = useCallback(() => {
     const sections = ['hero', 'about_me', 'projects', 'contact'];
     const scrollPosition = window.scrollY + window.innerHeight / 3; // Offset for better detection
@@ -52,6 +52,7 @@ export const BottomNav = () => {
     // if scroll down and scroll is greater than 100px, move bottom nav up
     if (currentScrollY > lastScrollY && currentScrollY > 10) {
       setIsShrunk(true);
+      setIsOpen(false);
     } else if (currentScrollY < lastScrollY) {
       setIsShrunk(false);
     }
@@ -93,8 +94,8 @@ export const BottomNav = () => {
     <div
       className={`
         fixed z-30 left-1/2 transform -translate-x-1/2 mx-auto w-full
-        transition-all duration-500 ease-in-out
-        ${isShrunk ? '-bottom-65' : 'bottom-6'}
+        transition-all duration-300 md:duration-500 ease-in-out
+        ${isShrunk ? '-bottom-20' : 'bottom-6'}
       `}
     >
       <div className='flex justify-between items-center h-full w-full'>
@@ -221,10 +222,10 @@ export const BottomNav = () => {
           )}
         </AnimatePresence>
 
-        {/* Main Floating Button */}
+        {/* Floating Button */}
         <motion.button
           onClick={toggleMenu}
-          className={`z-50 text-lg p-3 rounded-full ring-zinc-400 ring-1 text-white hover:cursor-pointer pointer-events-auto backdrop-blur-md hover:bg-sky-300/80 transition-all duration-300
+          className={`z-50 text-lg p-3 rounded-full ring-zinc-400 ring-1 text-white hover:cursor-pointer pointer-events-auto backdrop-blur-md hover:bg-blue-300/80 transition-all duration-300
                   ${
                     isOpen
                       ? 'bg-gradient-to-r from-emerald-400/80 to-sky-300/80'
@@ -234,7 +235,7 @@ export const BottomNav = () => {
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.3 }}
         >
-          {/* Button content */}
+          {/* // Button content  */}
           <div className='relative z-10'>
             <AnimatePresence mode='wait'>
               {isOpen ? (

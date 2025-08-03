@@ -30,6 +30,7 @@ export const ParticlesComponent = ({ options, id }: ParticlesProps) => {
       <Particles
         id={id}
         options={options}
+        className="h-full"
       />
     );
   }
