@@ -8,7 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import {
@@ -19,8 +18,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-// magic ui card
-import { MagicCard } from '../magicui/magic-card';
 // particles
 import { ParticlesComponent } from '@/lib/particles/Particles';
 import { contactOption } from '@/lib/particles/contactOption';
@@ -30,6 +27,7 @@ import { Send } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
+import { ShimmerButton } from '../magicui/shimmer-button';
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -118,16 +116,10 @@ export function Contact() {
             },
           }}
         >
-          <Card className='relative p-0 max-w-[700px] w-full border-none z-30 bg-transparent'>
-            <MagicCard
-              gradientColor='#4D4D4D'
-              gradientOpacity={1000}
-              gradientFrom='#34d399'
-              gradientTo='#7dd3fc'
-              className='px-2 py-6 md:p-6 border border-slate-500 transition-colors duration-300'
-            >
+          <Card className='relative p-0 max-w-[700px] w-full border z-30 bg-black/10 backdrop-blur-xs border-white/50 shadow-xl shadow-black/20'>
+            <div className='px-2 py-10 md:p-6 transition-colors rounded-xl duration-300 bg-[image:radial-gradient(50%_60%_at_10%_-10%,hsl(195,9%,79%,0.5),transparent),radial-gradient(50%_60%_at_100%_110%,hsl(195,9%,79%,0.5),transparent)]'>
               <CardHeader className=''>
-                <CardTitle className='text-4xl font-bold text-center'>
+                <CardTitle className='text-4xl font-bold text-center animate-gradient-x'>
                   Get in Touch
                 </CardTitle>
               </CardHeader>
@@ -157,7 +149,7 @@ export function Contact() {
                             <FormControl>
                               <Input
                                 placeholder='Your name'
-                                className='bg-slate-800/50 border-slate-600 text-white placeholder:text-slate-400 focus:border-indigo-400'
+                                className='bg-black/80 border-slate-600 text-white placeholder:text-slate-400 focus:border-indigo-400'
                                 {...field}
                               />
                             </FormControl>
@@ -177,7 +169,7 @@ export function Contact() {
                               <Input
                                 type='email'
                                 placeholder='your.email@example.com'
-                                className='bg-slate-800/50 border-slate-600 text-white placeholder:text-slate-400 focus:border-emerald-400'
+                                className='bg-black/80 border-slate-600 text-white placeholder:text-slate-400 focus:border-emerald-400'
                                 {...field}
                               />
                             </FormControl>
@@ -198,7 +190,7 @@ export function Contact() {
                           <FormControl>
                             <Input
                               placeholder='What would you like to discuss?'
-                              className='bg-slate-800/50 border-slate-600 text-white placeholder:text-slate-400 focus:border-indigo-400'
+                              className='bg-black/80 border-slate-600 text-white placeholder:text-slate-400 focus:border-indigo-400'
                               {...field}
                             />
                           </FormControl>
@@ -219,7 +211,7 @@ export function Contact() {
                             <Textarea
                               placeholder='Tell me about your project or idea...'
                               rows={4}
-                              className='bg-slate-800/50 border-slate-600 text-white placeholder:text-slate-400 resize-none'
+                              className='bg-black/80 border-slate-600 text-white placeholder:text-slate-400 resize-none'
                               {...field}
                             />
                           </FormControl>
@@ -229,18 +221,19 @@ export function Contact() {
                     />
 
                     <div className='flex justify-end'>
-                      <Button
+                      <ShimmerButton
                         type='submit'
-                        className='relative z-20 shadow-2xl rounded-xl border border-slate-500 bg-gradient-to-br from-emerald-600 to-sky-600 hover:from-emerald-500 hover:to-sky-500 transition-all duration-300 before:absolute before:inset-0 before:-z-10 before:rounded-xl before:bg-gradient-to-r before:from-emerald-400 before:via-sky-400 before:to-teal-500 before:opacity-100 before:blur-sm hover:before:opacity-100 hover:before:-inset-1 hover:before:blur-md before:transition-all before:duration-300'
+                        shimmerColor='#6ee7b7'
+                        className='relative z-20 shadow-2xl p-0 px-4 py-2 rounded-xl border border-slate-500 bg-gradient-to-br transition-all duration-300'
                       >
-                        <Send className='w-4 h-4 mr-2' />
-                        Send Message
-                      </Button>
+                        <Send className='w-4 h-4 mr-2 text-emerald-300' />
+                        <p className='bg-gradient-to-r from-teal-400 via-sky-300 to-sky-400 bg-clip-text text-transparent'>Send Message</p>
+                      </ShimmerButton>
                     </div>
                   </form>
                 </Form>
               </CardContent>
-            </MagicCard>
+            </div>
           </Card>
         </motion.div>
 
@@ -251,7 +244,7 @@ export function Contact() {
             hidden: { opacity: 0 },
             visible: {
               opacity: 1,
-              transition: { duration: 1, delay: 0.5 },
+              transition: { duration: 1, delay: 0.2 },
             },
           }}
         >
@@ -266,7 +259,7 @@ export function Contact() {
             visible: {
               opacity: 1,
               scale: 1,
-              transition: { duration: 1.2, delay: 0.2 },
+              transition: { duration: 1.2, delay: 0.5 },
             },
           }}
         >

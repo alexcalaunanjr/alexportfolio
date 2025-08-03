@@ -1,7 +1,7 @@
 'use client';
 
 // react
-import { useRef, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 // react-three-fiber/threejs
 import { Avatar } from '@/components/avatar';
 import { Canvas } from '@react-three/fiber';
@@ -17,20 +17,13 @@ import { ParticlesComponent } from '@/lib/particles/Particles';
 import { heroOption } from '@/lib/particles/heroOption';
 
 export function Hero() {
-  // states and refs for threejs avatar
-  const glowRef = useRef<HTMLDivElement>(null);
-  const [isMobile, setIsMobile] = useState(false);
+  // states for threejs avatar
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
   const [cameraFov, setCameraFov] = useState(15);
   const [avatarPosition, setAvatarPosition] = useState<
     [number, number, number]
   >([0, -1.3, 0]);
   const [isAvatarLoaded] = useState(false);
-
-  const handleAvatarHover = (hovered: boolean) => {
-    if (glowRef.current) {
-      glowRef.current.style.opacity = hovered ? '0.5' : '0';
-    }
-  };
 
   // Debounce function
   const debounce = <T extends unknown[]>(
@@ -48,11 +41,17 @@ export function Hero() {
     };
   };
 
-  // Check if device is mobile and set responsive FOV
+  // Check device capabilities and set responsive settings
   useEffect(() => {
     const updateResponsiveSettings = () => {
       const width = window.innerWidth;
-      setIsMobile(width < 640); // sm breakpoint
+      
+      // Detect touch capability - more reliable than just screen size
+      const isTouchCapable = 'ontouchstart' in window || 
+                            navigator.maxTouchPoints > 0 || 
+                            window.matchMedia('(pointer: coarse)').matches;
+      
+      setIsTouchDevice(isTouchCapable);
 
       // Set responsive FOV
       if (width < 640) {
@@ -103,14 +102,8 @@ export function Hero() {
         <ParticlesComponent options={heroOption} id={'tsparticles1'} />
       </div>
 
-      {/* Avatar Container with CSS Glow */}
+      {/* Avatar Container */}
       <div className='relative z-20'>
-        {/* Avatar Glow Effect - Only appears when avatar is hovered */}
-        <div
-          ref={glowRef}
-          className='hidden sm:block absolute inset-0 w-88 h-88 rounded-full opacity-0 transition-opacity duration-500 bg-gradient-to-br from-indigo-300 to-sky-300 blur-2xl -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 pointer-events-none'
-        />
-
         <Canvas
           camera={{ position: [10, 0, 8], fov: cameraFov }}
           style={{ height: '100vh', width: '100vw' }}
@@ -122,12 +115,16 @@ export function Hero() {
           <pointLight position={[5, 5, 5]} intensity={20} />
           <pointLight position={[-5, 5, 5]} intensity={1.5} />
           <directionalLight position={[0, 10, 5]} intensity={5} />
-          <Avatar position={avatarPosition} onHover={handleAvatarHover} />
-          {!isMobile && (
+          <Avatar position={avatarPosition} />
+          {!isTouchDevice && (
             <OrbitControls
               enablePan={false}
               enableZoom={false}
               target={[0, 0, 0]}
+              // Better performance and UX settings
+              enableDamping={true}
+              dampingFactor={0.05}
+              rotateSpeed={0.8}
             />
           )}
         </Canvas>
