@@ -61,7 +61,6 @@ export const useVerifyRecaptcha = ({
   return useMutation({
     mutationFn: verifyRecaptcha,
     onSuccess: (data) => {
-      console.log('reCAPTCHA verification successful:', data);
       onVerificationSuccess?.(data);
     },
     onError: (error: Error) => {

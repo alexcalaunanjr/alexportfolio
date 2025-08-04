@@ -5,18 +5,6 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { token } = body;
 
-    console.log('=== reCAPTCHA Verification Debug ===');
-    console.log(
-      'Token received:',
-      token ? `${token.substring(0, 20)}...` : 'null'
-    );
-    console.log('Token length:', token?.length || 0);
-    console.log('Secret key present:', !!process.env.RECAPTCHA_SECRET_KEY);
-    console.log(
-      'Request headers:',
-      Object.fromEntries(request.headers.entries())
-    );
-
     if (!token) {
       console.error('❌ No token provided');
       return NextResponse.json(
@@ -40,9 +28,6 @@ export async function POST(request: NextRequest) {
       response: token,
     });
 
-    console.log('🔄 Sending to Google:', verifyUrl);
-    console.log('🔄 Request body keys:', Array.from(verifyBody.keys()));
-
     const response = await fetch(verifyUrl, {
       method: 'POST',
       headers: {
@@ -51,23 +36,7 @@ export async function POST(request: NextRequest) {
       body: verifyBody,
     });
 
-    console.log('Google response status:', response.status);
-    console.log(
-      'Google response headers:',
-      Object.fromEntries(response.headers.entries())
-    );
-
     const data = await response.json();
-
-    // Enhanced logging for debugging
-    console.log('=== Google reCAPTCHA Response ===');
-    console.log('Success:', data.success);
-    console.log('Score:', data.score);
-    console.log('Action:', data.action);
-    console.log('Hostname:', data.hostname);
-    console.log('Challenge timestamp:', data.challenge_ts);
-    console.log('Error codes:', data['error-codes']);
-    console.log('Full response:', JSON.stringify(data, null, 2));
 
     if (data.success && data.score >= 0.5) {
       console.log('✅ Verification successful');

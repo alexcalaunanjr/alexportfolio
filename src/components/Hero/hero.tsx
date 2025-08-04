@@ -109,11 +109,9 @@ export function Hero() {
           style={{ height: '100vh', width: '100vw' }}
           className='z-20'
           performance={{ max: 1, min: 0.1 }}
-          dpr={[1, 2]}
+          dpr={[1, 1.5]}
         >
-          <ambientLight intensity={2} />
-          <pointLight position={[5, 5, 5]} intensity={20} />
-          <pointLight position={[-5, 5, 5]} intensity={1.5} />
+          <ambientLight intensity={1.5} /> 
           <directionalLight position={[0, 10, 5]} intensity={5} />
           <Avatar position={avatarPosition} />
           {!isTouchDevice && (

@@ -53,6 +53,9 @@ export function Avatar({ onHover, ...props }: AvatarProps) {
         material.precision = 'mediump';
         // Disable expensive features for better performance
         material.envMapIntensity = 0.5;
+        // Additional performance optimizations
+        material.roughness = 0.8; // Reduce reflections
+        material.metalness = 0.1; // Reduce metallic reflections
       }
     });
   }, [materials]);
