@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Cairo, Cabin } from 'next/font/google';
 import './globals.css';
+// providers
 import QueryProvider from '@/components/providers/QueryProvider';
+import { Toaster } from "@/components/ui/sonner"
 // analytics
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
@@ -43,7 +45,10 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${cairo.className} ${cabin.variable} antialiased`}
       >
         <QueryProvider>{children}</QueryProvider>
-        
+
+        {/* sonner toast */}
+        <Toaster richColors closeButton />
+
         {/* analytics and insights */}
         <Analytics />
         <SpeedInsights />
