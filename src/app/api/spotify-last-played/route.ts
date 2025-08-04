@@ -2,18 +2,10 @@
 
 import { NextResponse } from 'next/server';
 
-// These should be environment variables. Make sure they are set.
 const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
 const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
 let SPOTIFY_REFRESH_TOKEN = process.env.SPOTIFY_REFRESH_TOKEN; // Initial refresh token
 
-// In-memory cache for the access token and its expiry.
-// For production, especially with multiple instances of serverless functions,
-// you might need a more persistent store (e.g., Redis, a small database)
-// for `accessToken`, `tokenExpiry`, and `SPOTIFY_REFRESH_TOKEN` if it updates.
-// For a simple portfolio on Vercel/similar, this simple in-memory cache often suffices
-// because serverless functions stay "warm" for a bit, and a fresh function call
-// will just re-fetch/re-refresh.
 let accessToken: string | null = null;
 let tokenExpiry: number = 0; // Unix timestamp in milliseconds
 
@@ -43,8 +35,7 @@ async function refreshAccessToken(): Promise<string> {
   if (!response.ok) {
     const errorData = await response.json();
     console.error('Failed to refresh Spotify token:', errorData);
-    // Important: If the refresh token itself becomes invalid (e.g., user revoked access)
-    // you might need to manually re-authenticate yourself and update SPOTIFY_REFRESH_TOKEN.
+
     throw new Error(
       `Failed to refresh Spotify token: ${
         errorData.error_description || errorData.error
@@ -60,8 +51,6 @@ async function refreshAccessToken(): Promise<string> {
   accessToken = data.access_token;
   tokenExpiry = Date.now() + data.expires_in * 1000; // expires_in is in seconds, convert to ms
 
-  // If Spotify issues a new refresh token, update our stored one.
-  // In a production app, you'd persist this update.
   if (data.refresh_token) {
     SPOTIFY_REFRESH_TOKEN = data.refresh_token;
     console.log(

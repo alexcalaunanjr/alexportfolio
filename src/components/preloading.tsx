@@ -13,7 +13,7 @@ export function Preloading({ isVisible }: PreloadingProps) {
     Array<{ left: number; top: number; delay: number }>
   >([]);
 
-  // Generate particles on client side only to avoid hydration mismatch
+  // generate particles on client side only to avoid hydration mismatch
   useEffect(() => {
     const particleArray = Array.from({ length: 50 }, () => ({
       left: Math.random() * 100,

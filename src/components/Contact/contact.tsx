@@ -32,7 +32,7 @@ import { useSendEmail } from '@/hooks/use-send-email';
 import { useVerifyRecaptcha } from '@/hooks/use-verify-recaptcha';
 import { useEffect } from 'react';
 
-// Generate particles for background animation
+// generate particles for background animation
 const generateParticles = () => {
   return Array.from({ length: 50 }, (_, i) => ({
     id: i,

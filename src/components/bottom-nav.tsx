@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 // icons
 import { FaUserAstronaut } from 'react-icons/fa6';
@@ -23,54 +23,71 @@ export const BottomNav = () => {
     setIsOpen(!isOpen);
   };
 
-  // Function to determine which section is currently in view (for styling active link)
-  const getCurrentSection = useCallback(() => {
-    const sections = ['hero', 'about_me', 'projects', 'contact'];
-    const scrollPosition = window.scrollY + window.innerHeight / 3; // Offset for better detection
+  // Intersection Observer API for section detection
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      {
+        threshold: 0.3, // Trigger when 30% of section is visible
+        rootMargin: '-20% 0px -20% 0px', // Better detection area
+      }
+    );
 
-    for (const sectionId of sections) {
+    // Observe all sections
+    const sections = ['hero', 'about_me', 'projects', 'contact'];
+    const sectionElements: Element[] = [];
+
+    sections.forEach((sectionId) => {
       const element = document.getElementById(sectionId);
       if (element) {
-        const { offsetTop, offsetHeight } = element;
-        if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-          return sectionId;
-        }
+        observer.observe(element);
+        sectionElements.push(element);
       }
-    }
+    });
 
-    // Default to hero if no section is found or at the very top
-    return window.scrollY < 100 ? 'hero' : sections[sections.length - 1];
+    // Set initial active section
+    setActiveSection('hero');
+
+    return () => {
+      observer.disconnect(); // Clean cleanup
+    };
   }, []);
 
-  // shrink bottom nav bar based on scroll pos and detect active section
-  const handleScroll = useCallback(() => {
-    const currentScrollY = window.scrollY;
-
-    // Update active section
-    setActiveSection(getCurrentSection());
-
-    // if scroll down and scroll is greater than 100px, move bottom nav up
-    if (currentScrollY > lastScrollY && currentScrollY > 10) {
-      setIsShrunk(true);
-      setIsOpen(false);
-    } else if (currentScrollY < lastScrollY) {
-      setIsShrunk(false);
-    }
-    setLastScrollY(currentScrollY);
-  }, [lastScrollY, getCurrentSection]);
-
-  // useEffect to listen to scroll
+  // Separate scroll handler only for nav shrinking (throttled)
   useEffect(() => {
-    // Set initial active section
-    setActiveSection(getCurrentSection());
-    
-    window.addEventListener('scroll', handleScroll);
+    let ticking = false;
 
-    // cleanup event listener
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
+
+          // Only handle nav shrinking logic
+          if (currentScrollY > lastScrollY && currentScrollY > 10) {
+            setIsShrunk(true);
+            setIsOpen(false);
+          } else if (currentScrollY < lastScrollY) {
+            setIsShrunk(false);
+          }
+          setLastScrollY(currentScrollY);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [lastScrollY, handleScroll, getCurrentSection]);
+  }, [lastScrollY]);
 
   const menuItems = [
     {
@@ -108,12 +125,12 @@ export const BottomNav = () => {
                 href='/#hero'
                 className='font-semibold text-white whitespace-nowrap'
               >
-                <FaUserAstronaut 
+                <FaUserAstronaut
                   className={`transition-all duration-300 ${
-                    activeSection === 'hero' 
-                      ? 'text-sky-300 scale-120' 
+                    activeSection === 'hero'
+                      ? 'text-sky-300 scale-120'
                       : 'text-slate-300 hover:text-sky-200'
-                  }`} 
+                  }`}
                 />
               </Link>
 
@@ -125,8 +142,8 @@ export const BottomNav = () => {
                 <PiHandPeace
                   size={20}
                   className={`transition-all duration-300 ${
-                    activeSection === 'about_me' 
-                      ? 'text-sky-300 scale-120' 
+                    activeSection === 'about_me'
+                      ? 'text-sky-300 scale-120'
                       : 'text-slate-300 hover:text-sky-200'
                   }`}
                 />
@@ -139,8 +156,8 @@ export const BottomNav = () => {
                 <LuAppWindowMac
                   size={20}
                   className={`transition-all duration-300 ${
-                    activeSection === 'projects' 
-                      ? 'text-sky-300 scale-120' 
+                    activeSection === 'projects'
+                      ? 'text-sky-300 scale-120'
                       : 'text-slate-300 hover:text-sky-200'
                   }`}
                 />
@@ -153,8 +170,8 @@ export const BottomNav = () => {
                 <LuMail
                   size={20}
                   className={`transition-all duration-300 ${
-                    activeSection === 'contact' 
-                      ? 'text-sky-300 scale-120' 
+                    activeSection === 'contact'
+                      ? 'text-sky-300 scale-120'
                       : 'text-slate-300 hover:text-sky-200'
                   }`}
                 />

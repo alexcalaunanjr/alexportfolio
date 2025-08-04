@@ -4,7 +4,6 @@ import { ProjectCard } from './ProjectCard';
 import { projectsData } from './project-data';
 
 export function Projects() {
-  // Project data
   return (
     <section
       id='projects'

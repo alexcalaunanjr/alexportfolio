@@ -29,12 +29,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
-  // Optionally prevent body scroll when modal is open (disabled to prevent mobile resize issues)
-  // If you want to re-enable, use the CSS class approach above
-  // useEffect(() => {
-  //   // Scroll prevention code here
-  // }, [isExpanded]);
-
   // Handle escape key to close modal
   useEffect(() => {
     const handleEscapeKey = (event: KeyboardEvent) => {

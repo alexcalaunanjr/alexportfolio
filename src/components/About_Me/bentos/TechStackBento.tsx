@@ -62,13 +62,13 @@ export function TechStackBento() {
   ];
 
   return (
-    <Card className='relative col-span-1 md:col-span-3 bg-gradient-to-r from-transparent via-slate-700/70 to-transparent from-20% to-80% hover:via-slate-600/70 border border-slate-500 py-6 text-white transition-colors duration-300'>
+    <Card className='relative col-span-1 md:col-span-3 bg-gradient-to-r from-transparent via-slate-700/70 to-transparent from-20% to-80% hover:via-slate-600/70 border border-slate-500 hover:border-sky-600 py-6 text-white transition-colors duration-300'>
       <CardHeader>
         <CardTitle className='md:text-xl'>Tech Stack</CardTitle>
       </CardHeader>
       <CardContent className='relative flex flex-col items-center h-full overflow-hidden'>
         {/* MARQUEE SCROLL WITH LOGOS OF STACK */}
-        <Marquee className='[--duration:20s] [--gap:2rem] md:[--gap:3rem]'>
+        <Marquee className='[--duration:40s] [--gap:2rem] md:[--gap:3rem]'>
           {techStackIcons.map((tech, index) => (
             <Tooltip key={index} delayDuration={100}>
               <TooltipTrigger className='flex items-center justify-center'>
@@ -89,8 +89,8 @@ export function TechStackBento() {
           ))}
         </Marquee>
         {/* GRADIENT FADE AT THE SIDES */}
-        <div className='pointer-events-none absolute inset-y-0 left-[1px] w-1/4 bg-gradient-to-r from-black'></div>
-        <div className='pointer-events-none absolute inset-y-0 right-[1px] w-1/4 bg-gradient-to-l from-black'></div>
+        <div className='pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-black'></div>
+        <div className='pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-black'></div>
       </CardContent>
     </Card>
   );

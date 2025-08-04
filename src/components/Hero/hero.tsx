@@ -41,19 +41,19 @@ export function Hero() {
     };
   };
 
-  // Check device capabilities and set responsive settings
+  // check device capabilities and set responsive settings
   useEffect(() => {
     const updateResponsiveSettings = () => {
       const width = window.innerWidth;
       
-      // Detect touch capability - more reliable than just screen size
+      // detect touch capability
       const isTouchCapable = 'ontouchstart' in window || 
                             navigator.maxTouchPoints > 0 || 
                             window.matchMedia('(pointer: coarse)').matches;
       
       setIsTouchDevice(isTouchCapable);
 
-      // Set responsive FOV
+      // set responsive FOV
       if (width < 640) {
         // mobile
         setCameraFov(20);
@@ -68,7 +68,7 @@ export function Hero() {
         setCameraFov(12);
       }
 
-      // Set responsive avatar position
+      // set responsive avatar position
       if (width < 640) {
         // mobile
         setAvatarPosition([0, -1, 0]);
@@ -119,7 +119,7 @@ export function Hero() {
               enablePan={false}
               enableZoom={false}
               target={[0, 0, 0]}
-              // Better performance and UX settings
+              // better performance and UX settings
               enableDamping={true}
               dampingFactor={0.05}
               rotateSpeed={0.8}
