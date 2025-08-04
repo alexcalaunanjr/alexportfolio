@@ -18,6 +18,7 @@ import {
   SiTypescript,
   SiPython,
   SiPostgresql,
+  SiReactquery,
 } from 'react-icons/si';
 import { RiNextjsLine } from 'react-icons/ri';
 // magic ui
@@ -36,6 +37,10 @@ export function TechStackBento() {
     {
       icon: <SiTailwindcss className='w-8 h-8 lg:w-10 lg:h-10' />,
       title: 'Tailwind CSS',
+    },
+    {
+      icon: <SiReactquery className='w-8 h-8 lg:w-10 lg:h-10' />,
+      title: 'React Query',
     },
     { icon: <SiClerk className='w-8 h-8 lg:w-10 lg:h-10' />, title: 'Clerk' },
     { icon: <SiPrisma className='w-8 h-8 lg:w-10 lg:h-10' />, title: 'Prisma' },
@@ -59,7 +64,7 @@ export function TechStackBento() {
 
   return (
     <Card className='relative col-span-1 md:col-span-3 bg-gradient-to-r from-transparent via-slate-700/70 to-transparent from-20% to-80% hover:via-slate-600/70 border border-slate-500 py-6 text-white transition-colors duration-300'>
-      <ShineBorder shineColor={["#34d399", "#66a4ea", "#FFFFFF"]} />
+      <ShineBorder shineColor={['#34d399', '#66a4ea', '#FFFFFF']} />
       <CardHeader>
         <CardTitle className='md:text-xl'>Tech Stack</CardTitle>
       </CardHeader>

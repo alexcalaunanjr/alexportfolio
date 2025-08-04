@@ -13,6 +13,7 @@ import {
   SiGooglegemini,
   SiMui,
   SiResend,
+  SiReactquery,
 } from 'react-icons/si';
 import { TbBrandAws } from 'react-icons/tb';
 import { DiDjango } from 'react-icons/di';
@@ -57,10 +58,10 @@ export const projectsData: ProjectData[] = [
     liveUrl: 'https://medi-pal-frontend.vercel.app/',
     demoUrl:
       'https://player.vimeo.com/video/1094540664?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479',
-    image: '/images/medipal.webp', 
+    image: '/images/medipal.webp',
     awards: {
       description: 'SuperAI Next Hackathon 2025 Winner',
-    }
+    },
   },
   {
     id: 'project-2',
@@ -94,7 +95,7 @@ export const projectsData: ProjectData[] = [
         title: 'Google Recaptcha',
       },
     ],
-    liveUrl: 'https://elroyandco.com/', 
+    liveUrl: 'https://elroyandco.com/',
     image: '/images/elroyandco.webp',
   },
   {
@@ -119,6 +120,22 @@ export const projectsData: ProjectData[] = [
       {
         icon: <SiTailwindcss className='w-6 h-6' />,
         title: 'Tailwind CSS',
+      },
+      {
+        icon: <SiReactquery className='w-6 h-6' />,
+        title: 'Tanstack Query',
+      },
+      {
+        icon: (
+          <Image
+            src='/svg/tanstack_2.svg'
+            alt='Tanstack Router'
+            width={24}
+            height={24}
+            className='w-7 h-7'
+          />
+        ),
+        title: 'Tanstack Router',
       },
       {
         icon: <SiExpress className='w-6 h-6' />,
