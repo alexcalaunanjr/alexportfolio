@@ -51,23 +51,22 @@ export function Avatar({ onHover, ...props }: AvatarProps) {
     Object.values(materials).forEach((material) => {
       if (material instanceof THREE.MeshStandardMaterial) {
         material.precision = 'mediump';
-        // Disable expensive features for better performance
+        // disabled expensive features for better performance
         material.envMapIntensity = 0.5;
-        // Additional performance optimizations
-        material.roughness = 0.8; // Reduce reflections
-        material.metalness = 0.1; // Reduce metallic reflections
+        material.roughness = 0.8; // reduced reflections
+        material.metalness = 0.1; // reduced metallic reflections
       }
     });
   }, [materials]);
 
-  // Load animations
+  // animations
   const animationGLTF = useGLTF('/animations/animations.glb');
   const { animations } = animationGLTF as { animations: THREE.AnimationClip[] };
 
   const group = useRef<THREE.Group>(null);
   const { actions } = useAnimations(animations, group);
 
-  // Find the idle animation safely
+  // find the idle animation safely
   const idleAnimation = animations?.find(
     (animation: THREE.AnimationClip) => animation.name === 'floating'
   );
@@ -75,10 +74,10 @@ export function Avatar({ onHover, ...props }: AvatarProps) {
   const [animation] = useState<string>(idleAnimation?.name || 'floating');
   const [isAnimationReady, setIsAnimationReady] = useState(false);
 
-  // Start animation immediately when available
+  // start animation immediately when available
   useEffect(() => {
     if (actions && actions[animation] && !isAnimationReady) {
-      // Start animation immediately without fade-in delay
+      // start animation immediately without fade-in delay
       const action = actions[animation];
       if (action) {
         action.reset();
@@ -91,7 +90,7 @@ export function Avatar({ onHover, ...props }: AvatarProps) {
     }
   }, [actions, animation, isAnimationReady]);
 
-  // Ensure animation continues playing
+  // ensure animation continues playing
   useEffect(() => {
     if (actions && actions[animation] && isAnimationReady) {
       const action = actions[animation];
@@ -101,7 +100,7 @@ export function Avatar({ onHover, ...props }: AvatarProps) {
     }
   });
 
-  // Hover handlers
+  // hover handlers
   const handlePointerEnter = () => {
     onHover?.(true);
     document.body.style.cursor = 'grabbing';
@@ -119,7 +118,7 @@ export function Avatar({ onHover, ...props }: AvatarProps) {
       ref={group}
       onPointerEnter={handlePointerEnter}
       onPointerLeave={handlePointerLeave}
-      // Hide avatar until animation is ready to prevent T-pose flash
+      // hide avatar until animation is ready to prevent T-pose flash
       visible={isAnimationReady}
     >
       <primitive object={nodes.Hips} />

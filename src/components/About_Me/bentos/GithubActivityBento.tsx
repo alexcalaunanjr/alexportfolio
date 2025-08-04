@@ -6,7 +6,7 @@ import { SiGithub } from 'react-icons/si';
 
 export function GithubActivityBento() {
   return (
-    <Card className='relative col-span-1 md:col-span-2 bg-gradient-to-b from-transparent to-slate-700/70 hover:to-slate-600/70 border border-slate-500 transition-colors duration-300'>
+    <Card className='relative col-span-1 md:col-span-2 bg-gradient-to-b from-transparent to-slate-700/70 hover:to-slate-600/70 border border-slate-500 hover:border-sky-600 transition-colors duration-300'>
       <CardHeader className='w-full flex justify-between items-center'>
         <CardTitle className='md:text-xl text-white'>GitHub Activity</CardTitle>
         <Link

@@ -25,7 +25,7 @@ interface SpotifyError {
   details?: string;
 }
 
-// Custom hook for fetching Spotify last played track
+// custom hook for fetching Spotify last played track
 export const useSpotifyLastPlayed = () => {
   return useQuery<SpotifyRecentlyPlayedResponse, SpotifyError>({
     queryKey: ['spotify-last-played'],
@@ -46,7 +46,7 @@ export const useSpotifyLastPlayed = () => {
   });
 };
 
-// Helper hook to get the formatted last played track data
+// helper hook to get the formatted last played track data
 export const useFormattedSpotifyTrack = () => {
   const { data, isLoading, error, isError } = useSpotifyLastPlayed();
 

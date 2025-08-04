@@ -1,7 +1,7 @@
 export interface ProjectData {
   id: string;
   title: string;
-  subtitle?: string; // Optional subtitle for additional context
+  subtitle?: string;
   description: string;
   technologies: { icon: React.ReactNode; title: string }[];
   githubUrl?: string;

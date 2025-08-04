@@ -68,7 +68,7 @@ export function SpotifyLastPlayedBento() {
   }
 
   return (
-    <Card className='relative col-span-1 bg-gradient-to-b from-transparent to-slate-700/70 hover:to-slate-600/70 border border-slate-500 py-6 text-white transition-colors duration-300 overflow-hidden'>
+    <Card className='relative col-span-1 bg-gradient-to-b from-transparent to-slate-700/70 hover:to-slate-600/70 border border-slate-500 hover:border-sky-600 py-6 text-white transition-colors duration-300 overflow-hidden'>
       <CardHeader className='w-full flex justify-between items-center'>
         <CardTitle className='md:text-xl'>Last Played Track</CardTitle>
         <Link
