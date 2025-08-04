@@ -23,15 +23,13 @@ import { ParticlesComponent } from '@/lib/particles/Particles';
 import { contactOption } from '@/lib/particles/contactOption';
 // icons
 import { Rocket } from 'lucide-react';
-// lottie
-import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 // form
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { ShimmerButton } from '../magicui/shimmer-button';
 // query
-import { useSendEmail, ContactFormData } from '@/hooks/use-send-email';
+import { useSendEmail } from '@/hooks/use-send-email';
 import { useVerifyRecaptcha } from '@/hooks/use-verify-recaptcha';
 import { useEffect } from 'react';
 
