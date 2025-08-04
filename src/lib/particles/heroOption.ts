@@ -16,7 +16,7 @@ export const heroOption: ISourceOptions = {
     zIndex: 0,
   },
   detectRetina: true,
-  fpsLimit: 100,
+  fpsLimit: 60,
   interactivity: {
     events: {
       onClick: {
@@ -43,17 +43,17 @@ export const heroOption: ISourceOptions = {
         default: OutMode.out,
       },
       random: true,
-      speed: { min: 0.5, max: 1 },
+      speed: { min: 0.3, max: 0.8 },
       straight: false,
     },
     number: {
       density: {
         enable: true,
       },
-      value: 200,
+      value: 80,
     },
     opacity: {
-      value: { min: 0, max: 1 },
+      value: { min: 0.3, max: 0.8 },
       animation: {
         enable: true,
         speed: 0.5,

@@ -102,9 +102,6 @@ export const useSendEmail = ({
   return useMutation({
     mutationFn: sendEmail,
     onSuccess: (response) => {
-      // Debug
-      console.log('Email sent successfully:', response);
-
       // Call optional callback
       if (onEmailSent) {
         onEmailSent(response);
@@ -126,7 +123,7 @@ export const useSendEmail = ({
     },
     onError: (error) => {
       // Debug
-      console.log('Error sending email:', error);
+      console.error('Error sending email:', error);
 
       // Set form error
       setError('root', {

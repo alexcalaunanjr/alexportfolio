@@ -18,9 +18,8 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-// particles
-import { ParticlesComponent } from '@/lib/particles/Particles';
-import { contactOption } from '@/lib/particles/contactOption';
+// React hooks
+import { useState } from 'react';
 // icons
 import { Rocket } from 'lucide-react';
 // form
@@ -32,6 +31,17 @@ import { ShimmerButton } from '../magicui/shimmer-button';
 import { useSendEmail } from '@/hooks/use-send-email';
 import { useVerifyRecaptcha } from '@/hooks/use-verify-recaptcha';
 import { useEffect } from 'react';
+
+// Generate particles for background animation
+const generateParticles = () => {
+  return Array.from({ length: 50 }, (_, i) => ({
+    id: i,
+    left: Math.random() * 100,
+    top: Math.random() * 100,
+    delay: Math.random() * 3,
+    duration: 2 + Math.random() * 2,
+  }));
+};
 
 // Declare global for Google reCAPTCHA with proper typing
 declare global {
@@ -62,6 +72,8 @@ const formSchema = z.object({
 });
 
 export function Contact() {
+  const [particles] = useState(generateParticles());
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -96,21 +108,15 @@ export function Contact() {
   const sendEmailMutation = useSendEmail({
     setError: form.setError,
     reset: form.reset,
-    onEmailSent: (data) => {
-      console.log('Email sent callback:', data);
-    },
   });
 
   // TANSTACK QUERY MUTATION: reCAPTCHA verification mutation
   const recaptchaVerificationMutation = useVerifyRecaptcha({
     onVerificationSuccess: async () => {
-      console.log('reCAPTCHA verification successful, sending email...');
       // Get the current form data
       const formData = form.getValues();
       // Send email after successful reCAPTCHA verification
       await sendEmailMutation.mutateAsync(formData);
-      // for now console log sending
-      // console.log('Sending email with data:', formData);
     },
 
     onVerificationError: () => {
@@ -125,16 +131,9 @@ export function Contact() {
   const isSubmitting =
     sendEmailMutation.isPending || recaptchaVerificationMutation.isPending;
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    // debug
-    console.log('Form submitted with values:', values);
-
+  async function onSubmit() {
     try {
-      console.log('=== Form Submission Debug ===');
-      console.log('Domain:', window.location.hostname);
-
       const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
-      console.log('reCAPTCHA Site Key:', siteKey);
       if (!siteKey) {
         throw new Error('reCAPTCHA site key not configured');
       }
@@ -154,9 +153,6 @@ export function Contact() {
               action: 'submit',
             })
             .then((token: string) => {
-              console.log('✅ Token generated');
-              console.log('Token length:', token.length);
-              console.log('Token preview:', token.substring(0, 30) + '...');
               resolve(token);
             })
             .catch((error) => {
@@ -391,7 +387,7 @@ export function Contact() {
 
         {/* Background Particles */}
         <motion.div
-          className='absolute left-0 right-0 h-full z-10'
+          className='absolute inset-0 overflow-hidden z-10'
           variants={{
             hidden: { opacity: 0 },
             visible: {
@@ -400,7 +396,26 @@ export function Contact() {
             },
           }}
         >
-          <ParticlesComponent options={contactOption} id={'tsparticles2'} />
+          {particles.map((particle) => (
+            <motion.div
+              key={particle.id}
+              className='absolute w-1 h-1 bg-white rounded-full'
+              style={{
+                left: `${particle.left}%`,
+                top: `${particle.top}%`,
+              }}
+              animate={{
+                opacity: [0, 1, 0],
+                scale: [0, 1, 0],
+              }}
+              transition={{
+                duration: particle.duration,
+                repeat: Infinity,
+                delay: particle.delay,
+                ease: 'easeInOut',
+              }}
+            />
+          ))}
         </motion.div>
 
         {/* Moon image at the very bottom of the div */}
