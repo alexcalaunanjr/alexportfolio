@@ -261,3 +261,8 @@ html {
     @apply bg-background text-foreground;
   }
 }
+
+/* Hide reCAPTCHA floating badge */
+.grecaptcha-badge {
+  visibility: hidden;
+}

@@ -22,12 +22,31 @@ import {
 import { ParticlesComponent } from '@/lib/particles/Particles';
 import { contactOption } from '@/lib/particles/contactOption';
 // icons
-import { Send } from 'lucide-react';
+import { Rocket } from 'lucide-react';
+// lottie
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 // form
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { ShimmerButton } from '../magicui/shimmer-button';
+// query
+import { useSendEmail, ContactFormData } from '@/hooks/use-send-email';
+import { useVerifyRecaptcha } from '@/hooks/use-verify-recaptcha';
+import { useEffect } from 'react';
+
+// Declare global for Google reCAPTCHA with proper typing
+declare global {
+  interface Window {
+    grecaptcha: {
+      ready: (callback: () => void) => void;
+      execute: (
+        siteKey: string,
+        options: { action: string }
+      ) => Promise<string>;
+    };
+  }
+}
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -55,9 +74,121 @@ export function Contact() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // TODO: Handle form submission
-    console.log(values);
+  // useEffect to load reCAPTCHA script
+  useEffect(() => {
+    // Only load if not already loaded
+    if (!window.grecaptcha) {
+      const script = document.createElement('script');
+      script.src = `https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`;
+      script.async = true;
+      script.defer = true;
+
+      document.head.appendChild(script);
+
+      return () => {
+        // Cleanup script when component unmounts
+        if (document.head.contains(script)) {
+          document.head.removeChild(script);
+        }
+      };
+    }
+  }, []);
+
+  // TANSTACK QUERY MUTATION: Send email mutation
+  const sendEmailMutation = useSendEmail({
+    setError: form.setError,
+    reset: form.reset,
+    onEmailSent: (data) => {
+      console.log('Email sent callback:', data);
+    },
+  });
+
+  // TANSTACK QUERY MUTATION: reCAPTCHA verification mutation
+  const recaptchaVerificationMutation = useVerifyRecaptcha({
+    onVerificationSuccess: async () => {
+      console.log('reCAPTCHA verification successful, sending email...');
+      // Get the current form data
+      const formData = form.getValues();
+      // Send email after successful reCAPTCHA verification
+      await sendEmailMutation.mutateAsync(formData);
+      // for now console log sending
+      // console.log('Sending email with data:', formData);
+    },
+
+    onVerificationError: () => {
+      form.setError('root', {
+        type: 'manual',
+        message: 'Security verification failed. Please try again.',
+      });
+    },
+  });
+
+  // isSubmitting state to disable button during submission
+  const isSubmitting =
+    sendEmailMutation.isPending || recaptchaVerificationMutation.isPending;
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    // debug
+    console.log('Form submitted with values:', values);
+
+    try {
+      console.log('=== Form Submission Debug ===');
+      console.log('Domain:', window.location.hostname);
+
+      const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+      console.log('reCAPTCHA Site Key:', siteKey);
+      if (!siteKey) {
+        throw new Error('reCAPTCHA site key not configured');
+      }
+
+      if (!window.grecaptcha) {
+        throw new Error('reCAPTCHA not loaded');
+      }
+
+      console.log('🔄 Executing reCAPTCHA...');
+
+      // First, get the reCAPTCHA token
+      const token = await new Promise<string>((resolve, reject) => {
+        window.grecaptcha.ready(() => {
+          console.log('✅ reCAPTCHA ready');
+          window.grecaptcha
+            .execute(siteKey, {
+              action: 'submit',
+            })
+            .then((token: string) => {
+              console.log('✅ Token generated');
+              console.log('Token length:', token.length);
+              console.log('Token preview:', token.substring(0, 30) + '...');
+              resolve(token);
+            })
+            .catch((error) => {
+              console.error('❌ Token generation failed:', error);
+              reject(error);
+            });
+        });
+      });
+
+      console.log('🔄 Verifying token...');
+      // Verify the token using TanStack Query
+      await recaptchaVerificationMutation.mutateAsync({ token });
+    } catch (error) {
+      console.error('❌ Form submission error:', error);
+
+      // Set appropriate error message
+      if (error instanceof Error) {
+        if (error.message.includes('reCAPTCHA')) {
+          form.setError('root', {
+            type: 'manual',
+            message: 'Security verification failed. Please try again.',
+          });
+        } else {
+          form.setError('root', {
+            type: 'manual',
+            message: 'Failed to send your message. Please try again later.',
+          });
+        }
+      }
+    }
   }
 
   return (
@@ -124,11 +255,9 @@ export function Contact() {
                 </CardTitle>
               </CardHeader>
               <CardContent className='flex flex-col gap-6 text-slate-200'>
-                <CardDescription className='text-sm text-slate-300 text-center'>
-                  I&apos;m always open to discussing new projects, creative
-                  ideas, or opportunities to be part of your vision. Whether you
-                  have a question, want to collaborate, or just want to say hi,
-                  feel free to reach out!
+                <CardDescription className='text-sm md:text-base text-slate-300 text-center'>
+                  Whether you have a question, want to collaborate, or just want
+                  to say hi, feel free to reach out!
                 </CardDescription>
 
                 {/* Contact Form */}
@@ -149,7 +278,7 @@ export function Contact() {
                             <FormControl>
                               <Input
                                 placeholder='Your name'
-                                className='bg-black/80 border-slate-600 text-white placeholder:text-slate-400 focus:border-indigo-400'
+                                className='bg-black/80 border-slate-600 text-white max-md:text-sm placeholder:text-slate-400 focus:border-indigo-400'
                                 {...field}
                               />
                             </FormControl>
@@ -169,7 +298,7 @@ export function Contact() {
                               <Input
                                 type='email'
                                 placeholder='your.email@example.com'
-                                className='bg-black/80 border-slate-600 text-white placeholder:text-slate-400 focus:border-emerald-400'
+                                className='bg-black/80 border-slate-600 text-white max-md:text-sm placeholder:text-slate-400 focus:border-emerald-400'
                                 {...field}
                               />
                             </FormControl>
@@ -179,6 +308,7 @@ export function Contact() {
                       />
                     </div>
 
+                    {/* SUBJECT FIELD */}
                     <FormField
                       control={form.control}
                       name='subject'
@@ -190,7 +320,7 @@ export function Contact() {
                           <FormControl>
                             <Input
                               placeholder='What would you like to discuss?'
-                              className='bg-black/80 border-slate-600 text-white placeholder:text-slate-400 focus:border-indigo-400'
+                              className='bg-black/80 border-slate-600 text-white max-md:text-sm placeholder:text-slate-400 focus:border-indigo-400'
                               {...field}
                             />
                           </FormControl>
@@ -199,6 +329,7 @@ export function Contact() {
                       )}
                     />
 
+                    {/* MESSAGE FIELD */}
                     <FormField
                       control={form.control}
                       name='message'
@@ -211,7 +342,7 @@ export function Contact() {
                             <Textarea
                               placeholder='Tell me about your project or idea...'
                               rows={4}
-                              className='bg-black/80 border-slate-600 text-white placeholder:text-slate-400 resize-none'
+                              className='bg-black/80 border-slate-600 text-white max-md:text-sm placeholder:text-slate-400 resize-none'
                               {...field}
                             />
                           </FormControl>
@@ -220,16 +351,39 @@ export function Contact() {
                       )}
                     />
 
-                    <div className='flex justify-end'>
+                    {/* SUBMIT BUTTON */}
+                    <div className='flex justify-center pt-4'>
                       <ShimmerButton
                         type='submit'
+                        disabled={isSubmitting}
                         shimmerColor='#6ee7b7'
-                        className='relative z-20 shadow-2xl p-0 px-4 py-2 rounded-xl border border-slate-500 bg-gradient-to-br transition-all duration-300'
+                        className='relative z-20 shadow-2xl p-0 px-4 py-2 rounded-xl border border-slate-500 disabled:opacity-50 bg-gradient-to-br transition-all duration-300'
                       >
-                        <Send className='w-4 h-4 mr-2 text-emerald-300' />
-                        <p className='bg-gradient-to-r from-teal-400 via-sky-300 to-sky-400 bg-clip-text text-transparent'>Send Message</p>
+                        <Rocket className='w-4 h-4 mr-2 text-emerald-300' />
+                        <p className='bg-gradient-to-r from-teal-400 via-sky-300 to-sky-400 bg-clip-text text-transparent'>
+                          {!isSubmitting ? 'Send Message' : 'Sending...'}
+                        </p>
                       </ShimmerButton>
                     </div>
+
+                    {/* gRECAPTCHA message */}
+                    <p className='text-xs text-center text-slate-400 pt-2'>
+                      This site is protected by reCAPTCHA and the Google{' '}
+                      <Link
+                        href='https://policies.google.com/privacy'
+                        className='text-brand-accent-300 hover:text-brand-accent-400 underline transition-colors duration-300'
+                      >
+                        Privacy Policy
+                      </Link>{' '}
+                      and{' '}
+                      <Link
+                        href='https://policies.google.com/terms'
+                        className='text-brand-accent-300 hover:text-brand-accent-400 underline transition-colors duration-300'
+                      >
+                        Terms of Service
+                      </Link>{' '}
+                      apply.
+                    </p>
                   </form>
                 </Form>
               </CardContent>
@@ -259,7 +413,7 @@ export function Contact() {
             visible: {
               opacity: 1,
               scale: 1,
-              transition: { duration: 1.2, delay: 0.5 },
+              transition: { duration: 1, delay: 0.3 },
             },
           }}
         >
