@@ -32,7 +32,11 @@ const cabin = Cabin({
 export const metadata: Metadata = {
   title: 'Alex Calaunan Jr',
   description:
-    'Full-Stack Web Developer building robust and scalable solutions with expertise in React, Next.js, and Node.js. Passionate about Agentic AI',
+    'Full-Stack Web Developer building scalable solutions with the user in mind, and my expertise lie React, Next.js, Vite, and Node.js. Interested in Agentic AI',
+  icons: {
+    icon: '/favicon.svg',
+    apple: '/apple-touch-icon.png',
+  },
 };
 
 export default function RootLayout({
