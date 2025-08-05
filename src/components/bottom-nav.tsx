@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { FaUserAstronaut } from 'react-icons/fa6';
 import { LuAppWindowMac, LuMail } from 'react-icons/lu';
 import { PiHandPeace } from 'react-icons/pi';
-
+// motion
 import { motion, AnimatePresence } from 'motion/react';
 import { HeroButton } from './Hero/hero-button';
 import { TbBrandGithub, TbBrandLinkedin, TbFileCv, TbX } from 'react-icons/tb';
@@ -101,9 +101,10 @@ export const BottomNav = () => {
       label: 'LinkedIn',
     },
     {
-      href: '#projects',
+      href: '/Alex_Calaunan_Jr_Resume.pdf',
       icon: <TbFileCv size={22} />,
       label: 'Resume',
+      target: '_blank', // Opens in new tab
     },
   ];
 
@@ -219,7 +220,7 @@ export const BottomNav = () => {
                   }}
                   onClick={() => setIsOpen(false)}
                 >
-                  {item.label !== 'Projects' ? (
+                  {item.label !== 'Resume' ? (
                     <HeroButton
                       href={item.href}
                       icon={item.icon}
@@ -230,7 +231,7 @@ export const BottomNav = () => {
                       href={item.href}
                       icon={item.icon}
                       label={item.label}
-                      target='_self'
+                      target='_blank'
                     />
                   )}
                 </motion.div>
