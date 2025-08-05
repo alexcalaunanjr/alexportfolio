@@ -4,6 +4,7 @@ import { Hero } from '@/components/Hero/hero';
 import { AboutMe } from '@/components/About_Me/about-me';
 import { Projects } from '@/components/Projects/projects';
 import { Contact } from '@/components/Contact/contact';
+import { Footer } from '@/components/footer';
 import { BottomNav } from '@/components/bottom-nav';
 
 export default function Home() {
@@ -18,6 +19,8 @@ export default function Home() {
       <Projects />
       {/* CONTACT ME */}
       <Contact />
+      {/* FOOTER */}
+      <Footer />
 
       {/* Bottom Nav */}
       <BottomNav />

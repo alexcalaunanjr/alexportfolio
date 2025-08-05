@@ -32,17 +32,6 @@ import { useSendEmail } from '@/hooks/use-send-email';
 import { useVerifyRecaptcha } from '@/hooks/use-verify-recaptcha';
 import { useEffect } from 'react';
 
-// generate particles for background animation
-const generateParticles = () => {
-  return Array.from({ length: 50 }, (_, i) => ({
-    id: i,
-    left: Math.random() * 100,
-    top: Math.random() * 100,
-    delay: Math.random() * 3,
-    duration: 2 + Math.random() * 2,
-  }));
-};
-
 // Declare global for Google reCAPTCHA with proper typing
 declare global {
   interface Window {
@@ -72,7 +61,27 @@ const formSchema = z.object({
 });
 
 export function Contact() {
-  const [particles] = useState(generateParticles());
+  const [particles, setParticles] = useState<
+    Array<{
+      id: number;
+      left: number;
+      top: number;
+      delay: number;
+      duration: number;
+    }>
+  >([]);
+
+  // Generate particles only on client-side to avoid hydration mismatch
+  useEffect(() => {
+    const newParticles = Array.from({ length: 100 }, (_, i) => ({
+      id: i,
+      left: Math.random() * 100,
+      top: Math.random() * 100,
+      delay: Math.random() * 3,
+      duration: 2 + Math.random() * 2,
+    }));
+    setParticles(newParticles);
+  }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -396,26 +405,27 @@ export function Contact() {
             },
           }}
         >
-          {particles.map((particle) => (
-            <motion.div
-              key={particle.id}
-              className='absolute w-1 h-1 bg-white rounded-full'
-              style={{
-                left: `${particle.left}%`,
-                top: `${particle.top}%`,
-              }}
-              animate={{
-                opacity: [0, 1, 0],
-                scale: [0, 1, 0],
-              }}
-              transition={{
-                duration: particle.duration,
-                repeat: Infinity,
-                delay: particle.delay,
-                ease: 'easeInOut',
-              }}
-            />
-          ))}
+          {particles.length > 0 &&
+            particles.map((particle) => (
+              <motion.div
+                key={particle.id}
+                className='absolute w-1 h-1 bg-white rounded-full'
+                style={{
+                  left: `${particle.left}%`,
+                  top: `${particle.top}%`,
+                }}
+                animate={{
+                  opacity: [0, 1, 0],
+                  scale: [0, 1, 0],
+                }}
+                transition={{
+                  duration: particle.duration,
+                  repeat: Infinity,
+                  delay: particle.delay,
+                  ease: 'easeInOut',
+                }}
+              />
+            ))}
         </motion.div>
 
         {/* Moon image at the very bottom of the div */}
