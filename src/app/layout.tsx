@@ -7,7 +7,6 @@ import { Toaster } from '@/components/ui/sonner';
 // analytics
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import Script from 'next/script';
 
 // fonts
 const geistSans = Geist({
@@ -43,13 +42,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <head>
-        <script
-          defer
-          src='https://cloud.umami.is/script.js'
-          data-website-id='e1eca009-71bd-4507-82b8-24a3f1019f75'
-        ></script>
-      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${cairo.className} ${cabin.variable} antialiased`}
       >

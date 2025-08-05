@@ -1,7 +1,7 @@
 'use client';
 
 // react
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 // lodash
 import { debounce } from 'lodash';
 // react-three-fiber/threejs
@@ -22,6 +22,7 @@ import { heroOption } from '@/lib/particles/heroOption';
 const MemoizedParticles = React.memo(() => (
   <ParticlesComponent options={heroOption} id={'tsparticles1'} />
 ));
+MemoizedParticles.displayName = 'MemoizedParticles';
 
 export function Hero() {
   // states for threejs avatar
