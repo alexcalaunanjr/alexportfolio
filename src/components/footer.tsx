@@ -77,7 +77,7 @@ export function Footer() {
                 href='#contact'
                 className='relative group text-sky-300 hover:text-emerald-300 transition-colors duration-300 text-sm block'
               >
-                <span>Let's chat together →</span>
+                <span>Let&apos;s chat together →</span>
                 <span className='absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-sky-500 transition-all duration-300 ease-out group-hover:w-full'></span>
               </Link>
             </div>
