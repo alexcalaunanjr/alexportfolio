@@ -1,9 +1,7 @@
 'use client';
 
 // react
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
-// lodash
-import { debounce } from 'lodash';
+import { useState, useEffect } from 'react';
 // react-three-fiber/threejs
 import { Avatar } from '@/components/avatar';
 import { Canvas } from '@react-three/fiber';
@@ -18,11 +16,6 @@ import { motion } from 'motion/react';
 import { ParticlesComponent } from '@/lib/particles/Particles';
 import { heroOption } from '@/lib/particles/heroOption';
 
-// Memoized particles component to prevent re-renders
-const MemoizedParticles = React.memo(() => (
-  <ParticlesComponent options={heroOption} id={'tsparticles1'} />
-));
-
 export function Hero() {
   // states for threejs avatar
   const [isTouchDevice, setIsTouchDevice] = useState(false);
@@ -31,24 +24,33 @@ export function Hero() {
     [number, number, number]
   >([0, -1.3, 0]);
   const [isAvatarLoaded] = useState(false);
-  const [isAvatarHovered, setIsAvatarHovered] = useState(false);
 
-  // Memoize the hover handler to prevent unnecessary re-renders
-  const handleAvatarHover = useCallback((hovered: boolean) => {
-    setIsAvatarHovered(hovered);
-  }, []);
+  // Debounce function
+  const debounce = <T extends unknown[]>(
+    func: (...args: T) => void,
+    wait: number
+  ) => {
+    let timeout: NodeJS.Timeout;
+    return function executedFunction(...args: T) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  };
 
   // check device capabilities and set responsive settings
   useEffect(() => {
     const updateResponsiveSettings = () => {
       const width = window.innerWidth;
-
+      
       // detect touch capability
-      const isTouchCapable =
-        'ontouchstart' in window ||
-        navigator.maxTouchPoints > 0 ||
-        window.matchMedia('(pointer: coarse)').matches;
-
+      const isTouchCapable = 'ontouchstart' in window || 
+                            navigator.maxTouchPoints > 0 || 
+                            window.matchMedia('(pointer: coarse)').matches;
+      
       setIsTouchDevice(isTouchCapable);
 
       // set responsive FOV
@@ -87,10 +89,7 @@ export function Hero() {
     updateResponsiveSettings();
     window.addEventListener('resize', debouncedResize);
 
-    return () => {
-      window.removeEventListener('resize', debouncedResize);
-      debouncedResize.cancel(); // Clean up the debounced function
-    };
+    return () => window.removeEventListener('resize', debouncedResize);
   }, []);
 
   return (
@@ -100,15 +99,11 @@ export function Hero() {
     >
       {/* Background Particles */}
       <div className='absolute left-0 right-0 h-full z-20'>
-        <MemoizedParticles />
+        <ParticlesComponent options={heroOption} id={'tsparticles1'} />
       </div>
 
       {/* Avatar Container */}
-      <div
-        className={`relative z-20 transition-all duration-300 ${
-          isAvatarHovered ? 'drop-shadow-[0_0_40px_rgba(203,213,225,0.8)]' : 'drop-shadow-[0_0_5px_rgba(203,213,225,0.8)]'
-        }`}
-      >
+      <div className='relative z-20'>
         <Canvas
           camera={{ position: [10, 0, 8], fov: cameraFov }}
           style={{ height: '100vh', width: '100vw' }}
@@ -116,9 +111,9 @@ export function Hero() {
           performance={{ max: 1, min: 0.1 }}
           dpr={[1, 1.5]}
         >
-          <ambientLight intensity={1.5} />
+          <ambientLight intensity={1.5} /> 
           <directionalLight position={[0, 10, 5]} intensity={5} />
-          <Avatar position={avatarPosition} onHover={handleAvatarHover} />
+          <Avatar position={avatarPosition} />
           {!isTouchDevice && (
             <OrbitControls
               enablePan={false}
