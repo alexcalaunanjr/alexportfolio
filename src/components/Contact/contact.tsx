@@ -234,13 +234,12 @@ export function Contact() {
       >
         <motion.div
           variants={{
-            hidden: {
-              opacity: 0,
-              y: 50,
-              scale: 0.95,
-            },
+            // hidden: {
+            //   opacity: 0,
+            //   y: 50,
+            //   scale: 0.95,
+            // },
             visible: {
-              opacity: 1,
               y: 0,
               scale: 1,
               transition: {
@@ -430,13 +429,14 @@ export function Contact() {
 
         {/* Moon image at the very bottom of the div */}
         <motion.div
-          className='absolute inset-0'
+          className='absolute inset-0 z-20'
           variants={{
-            hidden: { opacity: 0, scale: 1.1 },
+            hidden: { opacity: 0, scale: 1.1, filter: 'blur(12px)' },
             visible: {
               opacity: 1,
               scale: 1,
-              transition: { duration: 1, delay: 0.3 },
+              filter: 'blur(0px)',
+              transition: { duration: 1.2, delay: 0.75 },
             },
           }}
         >
