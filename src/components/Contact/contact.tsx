@@ -431,12 +431,22 @@ export function Contact() {
         <motion.div
           className='absolute inset-0 z-20'
           variants={{
-            hidden: { opacity: 0, scale: 1.1, filter: 'blur(12px)' },
+            hidden: {
+              opacity: 0,
+              scale: 1.1,
+              filter: 'blur(12px)',
+              y: 100,
+            },
             visible: {
               opacity: 1,
               scale: 1,
               filter: 'blur(0px)',
-              transition: { duration: 1.2, delay: 0.75 },
+              y: 0,
+              transition: {
+                duration: 1.2,
+                delay: 0.7,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              },
             },
           }}
         >

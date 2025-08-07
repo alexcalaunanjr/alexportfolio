@@ -9,7 +9,7 @@ import { BottomNav } from '@/components/bottom-nav';
 
 export default function Home() {
   return (
-    <div className='relative min-h-screen bg-black flex flex-col items-center justify-center'>
+    <div className='relative min-h-screen bg-black flex flex-col items-center justify-center overflow-x-hidden'>
       {/* Main Content */}
       {/* HERO */}
       <Hero />
