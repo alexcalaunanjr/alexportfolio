@@ -173,7 +173,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
                         alt={project.title}
                         width={800}
                         height={450}
-                        className='w-full h-full object-cover hover:scale-105 transition-transform duration-300'
+                        className='w-full h-full object-cover hover:scale-105 transition-transform duration-300 select-none'
+                        onContextMenu={(e) => e.preventDefault()}
+                        onDragStart={(e) => e.preventDefault()}
+                        style={{ userSelect: 'none' }}
                       />
                     </div>
                   </div>
@@ -397,7 +400,13 @@ export function ProjectCard({ project }: ProjectCardProps) {
                             alt={`${project.title} - Image ${index + 1}`}
                             width={1200}
                             height={800}
-                            className='max-w-full max-h-[60vh] object-contain rounded-lg shadow-2xl'
+                            className='max-w-full max-h-[60vh] object-contain rounded-lg shadow-2xl select-none'
+                            onContextMenu={(e) => e.preventDefault()}
+                            onDragStart={(e) => e.preventDefault()}
+                            style={{
+                              userSelect: 'none',
+                              pointerEvents: 'auto',
+                            }}
                           />
                         </div>
                       </CarouselItem>
@@ -439,7 +448,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
                             alt={`${project.title} - Thumbnail ${index + 1}`}
                             width={120}
                             height={80}
-                            className='w-20 h-14 object-cover rounded border border-gray-600'
+                            className='w-20 h-14 object-cover rounded border border-gray-600 select-none'
+                            onContextMenu={(e) => e.preventDefault()}
+                            onDragStart={(e) => e.preventDefault()}
+                            style={{ userSelect: 'none' }}
                           />
                         </div>
                       </CarouselItem>

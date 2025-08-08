@@ -59,6 +59,13 @@ export const projectsData: ProjectData[] = [
     demoUrl:
       'https://player.vimeo.com/video/1094540664?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479',
     image: '/images/medipal.webp',
+    slideshow: [
+      'https://alexcalaunanjr.sirv.com/PORTFOLIO/MEDIPAL/medipal-1.webp',
+      'https://alexcalaunanjr.sirv.com/PORTFOLIO/MEDIPAL/medipal-2.webp',
+      'https://alexcalaunanjr.sirv.com/PORTFOLIO/MEDIPAL/medipal-3.webp',
+      'https://alexcalaunanjr.sirv.com/PORTFOLIO/MEDIPAL/medipal-4.webp',
+      'https://alexcalaunanjr.sirv.com/PORTFOLIO/MEDIPAL/medipal-5.webp',
+    ],
     awards: {
       description: 'SuperAI Next Hackathon 2025 Winner',
     },
