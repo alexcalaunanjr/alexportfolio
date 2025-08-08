@@ -63,11 +63,27 @@ export function Avatar({ onHover, ...props }: AvatarProps) {
   const animationGLTF = useGLTF('/animations/animations.glb');
   const { animations } = animationGLTF as { animations: THREE.AnimationClip[] };
 
+  // filter out animation tracks that reference non-existent bones to prevent warnings
+  const filteredAnimations = React.useMemo(() => {
+    if (!animations || !nodes) return animations;
+
+    return animations.map((clip) => {
+      const filteredTracks = clip.tracks.filter((track) => {
+        const targetName = track.name.split('.')[0];
+        // check if the target bone exists in the model
+        return nodes[targetName as keyof typeof nodes] !== undefined;
+      });
+
+      // create a new clip with only valid tracks
+      return new THREE.AnimationClip(clip.name, clip.duration, filteredTracks);
+    });
+  }, [animations, nodes]);
+
   const group = useRef<THREE.Group>(null);
-  const { actions } = useAnimations(animations, group);
+  const { actions } = useAnimations(filteredAnimations, group);
 
   // find the idle animation safely
-  const idleAnimation = animations?.find(
+  const idleAnimation = filteredAnimations?.find(
     (animation: THREE.AnimationClip) => animation.name === 'floating'
   );
 

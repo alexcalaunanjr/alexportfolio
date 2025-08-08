@@ -8,6 +8,7 @@ export interface ProjectData {
   liveUrl?: string;
   demoUrl?: string;
   image?: string;
+  slideshow?: string[];
   awards?: {
     description: string;
   };

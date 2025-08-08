@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'motion/react';
-import { useState, useRef, useEffect, Fragment } from 'react';
+import { useState, useRef, useEffect, useCallback, Fragment } from 'react';
 import Link from 'next/link';
 import {
   Card,
@@ -11,7 +11,19 @@ import {
 } from '@/components/ui/card';
 import Image from 'next/image';
 // tooltip
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+  type CarouselApi,
+} from '@/components/ui/carousel';
 // icons
 import { X, Minus, ExternalLink, Video } from 'lucide-react';
 import { RiExpandLeftRightFill } from 'react-icons/ri';
@@ -27,32 +39,75 @@ interface ProjectCardProps {
 
 export function ProjectCard({ project }: ProjectCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [showCarousel, setShowCarousel] = useState(false);
+  const [mainApi, setMainApi] = useState<CarouselApi>();
+  const [thumbApi, setThumbApi] = useState<CarouselApi>();
+  const [selectedIndex, setSelectedIndex] = useState(0);
   const cardRef = useRef<HTMLDivElement>(null);
+
+  // Create array of all images (main image + slideshow images)
+  const allImages = [project.image, ...(project.slideshow || [])].filter(
+    Boolean
+  ) as string[];
 
   // Handle escape key to close modal
   useEffect(() => {
     const handleEscapeKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && isExpanded) {
+      if (event.key === 'Escape' && (isExpanded || showCarousel)) {
         setIsExpanded(false);
+        setShowCarousel(false);
       }
     };
 
-    if (isExpanded) {
+    if (isExpanded || showCarousel) {
       document.addEventListener('keydown', handleEscapeKey);
     }
 
     return () => {
       document.removeEventListener('keydown', handleEscapeKey);
     };
-  }, [isExpanded]);
+  }, [isExpanded, showCarousel]);
+
+  // Thumbnail carousel logic
+  const onThumbClick = useCallback(
+    (index: number) => {
+      if (!mainApi || !thumbApi) return;
+      mainApi.scrollTo(index);
+    },
+    [mainApi, thumbApi]
+  );
+
+  const onSelect = useCallback(() => {
+    if (!mainApi || !thumbApi) return;
+    setSelectedIndex(mainApi.selectedScrollSnap());
+    thumbApi.scrollTo(mainApi.selectedScrollSnap());
+  }, [mainApi, thumbApi, setSelectedIndex]);
+
+  useEffect(() => {
+    if (!mainApi) return;
+    onSelect();
+    mainApi.on('select', onSelect);
+    mainApi.on('reInit', onSelect);
+  }, [mainApi, onSelect]);
 
   const handleVideoDemoClick = (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent card click
     setIsExpanded(true);
   };
 
+  const handleImageClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent card click
+    if (allImages.length > 0) {
+      setShowCarousel(true);
+    }
+  };
+
   const handleClose = () => {
     setIsExpanded(false);
+  };
+
+  const handleCarouselClose = () => {
+    setShowCarousel(false);
   };
 
   return (
@@ -109,7 +164,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
                     </div>
 
                     {/* Content Area */}
-                    <div className='overflow-hidden rounded-b-lg bg-slate-800/50'>
+                    <div
+                      className='overflow-hidden rounded-b-lg bg-slate-800/50 cursor-pointer'
+                      onClick={handleImageClick}
+                    >
                       <Image
                         src={project.image}
                         alt={project.title}
@@ -146,7 +204,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
                         {tech.icon}
                       </div>
                     </TooltipTrigger>
-                    <TooltipContent side='top' className='bg-slate-800 text-sm text-white p-2 rounded-lg shadow-lg'>
+                    <TooltipContent
+                      side='top'
+                      className='bg-slate-800 text-sm text-white p-2 rounded-lg shadow-lg'
+                    >
                       {tech.title}
                     </TooltipContent>
                   </Tooltip>
@@ -193,7 +254,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
               {project.awards && (
                 <div className='mt-6 flex items-center gap-2 '>
                   <span className='font-semibold'>🏆</span>
-                  <span className='animate-gradient-x'>{project.awards.description}</span>
+                  <span className='animate-gradient-x'>
+                    {project.awards.description}
+                  </span>
                 </div>
               )}
             </motion.div>
@@ -280,6 +343,114 @@ export function ProjectCard({ project }: ProjectCardProps) {
                     />
                   </div>
                 </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Image Carousel Modal */}
+      <AnimatePresence>
+        {showCarousel && allImages.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className='fixed inset-0 z-[9999] flex items-center justify-center p-4'
+            onClick={handleCarouselClose}
+            style={{ position: 'fixed', zIndex: 9999 }}
+          >
+            {/* Backdrop with blur */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className='absolute inset-0 bg-black/80 backdrop-blur-sm'
+            />
+
+            {/* Carousel Container */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              className='relative w-full max-w-4xl max-h-[80vh]'
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close button */}
+              <button
+                onClick={handleCarouselClose}
+                className='absolute -top-12 right-0 z-10 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors duration-200'
+              >
+                <X size={24} />
+              </button>
+
+              {/* Carousel */}
+              <div className='w-full space-y-4'>
+                {/* Main Carousel */}
+                <Carousel setApi={setMainApi} className='w-full'>
+                  <CarouselContent>
+                    {allImages.map((image, index) => (
+                      <CarouselItem key={index}>
+                        <div className='flex items-center justify-center'>
+                          <Image
+                            src={image}
+                            alt={`${project.title} - Image ${index + 1}`}
+                            width={1200}
+                            height={800}
+                            className='max-w-full max-h-[60vh] object-contain rounded-lg shadow-2xl'
+                          />
+                        </div>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  {allImages.length > 1 && (
+                    <>
+                      <CarouselPrevious className='left-4 bg-black/50 hover:bg-black/70 text-white border-none' />
+                      <CarouselNext className='right-4 bg-black/50 hover:bg-black/70 text-white border-none' />
+                    </>
+                  )}
+                </Carousel>
+
+                {/* Thumbnail Carousel */}
+                <Carousel
+                  setApi={setThumbApi}
+                  className='w-full flex justify-center'
+                  opts={{
+                    containScroll: 'keepSnaps',
+                    dragFree: true,
+                  }}
+                >
+                  <CarouselContent className='flex gap-2 ml-0 justify-center'>
+                    {allImages.map((image, index) => (
+                      <CarouselItem
+                        key={index}
+                        className='pl-2 basis-auto flex-shrink-0'
+                      >
+                        <div
+                          className={`relative cursor-pointer transition-all duration-200 ${
+                            index === selectedIndex
+                              ? 'opacity-100'
+                              : 'opacity-50 hover:opacity-75'
+                          }`}
+                          onClick={() => onThumbClick(index)}
+                        >
+                          <Image
+                            src={image}
+                            alt={`${project.title} - Thumbnail ${index + 1}`}
+                            width={120}
+                            height={80}
+                            className='w-20 h-14 object-cover rounded border border-gray-600'
+                          />
+                        </div>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                </Carousel>
+              </div>
+
+              {/* Image counter */}
+              <div className='absolute top-4 right-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm'>
+                {selectedIndex + 1} of {allImages.length}
               </div>
             </motion.div>
           </motion.div>

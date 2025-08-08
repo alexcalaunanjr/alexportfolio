@@ -59,7 +59,7 @@ export function AboutMeBento() {
   const shortText =
     "I've always been passionate about tech, art and design, and UI/UX to improve the quality of life.";
   return (
-    <Card className='relative col-span-1 md:col-span-2 bg-gradient-to-b from-transparent to-slate-700/70 hover:to-slate-600/70 border border-slate-500 hover:border-slate-300 py-6 gap-1 text-white transition-colors duration-300'>
+    <Card className='relative col-span-1 md:col-span-8 bg-gradient-to-b from-transparent to-slate-700/70 hover:to-slate-600/70 border border-slate-500 hover:border-slate-300 py-6 gap-1 text-white transition-colors duration-300'>
       <ShineBorder shineColor={['#34d399', '#66a4ea', '#FFFFFF']} />
       <CardHeader>
         <CardTitle className='md:text-xl'>About</CardTitle>

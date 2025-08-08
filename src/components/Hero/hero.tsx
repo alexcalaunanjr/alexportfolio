@@ -166,7 +166,7 @@ export function Hero() {
             <span className='border-b border-sky-500 font-bold animate-gradient-x'>
               Full-stack developer
             </span>{' '}
-            who reaches for the stars to build applications that help to improve
+            who reaches for the stars to build applications that hope to improve
             people&apos;s lives through tech.
           </motion.p>
         </div>

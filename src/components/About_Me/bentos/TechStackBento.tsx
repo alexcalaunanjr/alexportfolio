@@ -63,7 +63,7 @@ export function TechStackBento() {
   ];
 
   return (
-    <Card className='relative col-span-1 md:col-span-3 bg-gradient-to-r from-transparent via-slate-700/70 to-transparent from-20% to-80% hover:via-slate-600/70 border border-slate-500 hover:border-slate-300 py-6 text-white transition-colors duration-300'>
+    <Card className='relative col-span-1 md:col-span-12 bg-gradient-to-r from-transparent via-slate-700/70 to-transparent from-20% to-80% hover:via-slate-600/70 border border-slate-500 hover:border-slate-300 py-6 text-white transition-colors duration-300'>
       <ShineBorder shineColor={['#34d399', '#66a4ea', '#FFFFFF']} />
       <CardHeader>
         <CardTitle className='md:text-xl'>Tech Stack</CardTitle>
