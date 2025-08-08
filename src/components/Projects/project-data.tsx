@@ -151,6 +151,7 @@ export const projectsData: ProjectData[] = [
       },
     ],
     image: '/images/megoria.webp',
+    slideshow: ['https://alexcalaunanjr.sirv.com/PORTFOLIO/MEGORIA/DASHBOARD.webp', 'https://alexcalaunanjr.sirv.com/PORTFOLIO/MEGORIA/TRANSACTION_PAGE.webp', 'https://alexcalaunanjr.sirv.com/PORTFOLIO/MEGORIA/CUST_PAGE.webp'],
   },
   {
     id: 'project-4',

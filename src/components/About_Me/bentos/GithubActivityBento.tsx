@@ -7,7 +7,7 @@ import { ShineBorder } from '@/components/magicui/shine-border';
 
 export function GithubActivityBento() {
   return (
-    <Card className='relative col-span-1 md:col-span-2 bg-gradient-to-b from-transparent to-slate-700/70 hover:to-slate-600/70 border border-slate-500 hover:border-slate-300 transition-colors duration-300'>
+    <Card className='relative col-span-1 md:col-span-7 bg-gradient-to-b from-transparent to-slate-700/70 hover:to-slate-600/70 border border-slate-500 hover:border-slate-300 transition-colors duration-300'>
       <ShineBorder shineColor={['#34d399', '#66a4ea', '#FFFFFF']} />
       <CardHeader className='w-full flex justify-between items-center'>
         <CardTitle className='md:text-xl text-white'>GitHub Activity</CardTitle>

@@ -22,7 +22,7 @@ export function AboutMe() {
       </Link>
 
       {/* BENTO-STYLE SECTIONS USING GRID */}
-      <div className='grid grid-cols-1 md:grid-cols-3 gap-2'>
+      <div className='grid grid-cols-1 md:grid-cols-12 gap-2'>
         {/* PICTURE*/}
         <PictureBento />
 

@@ -13,6 +13,14 @@ interface SpotifyTrack {
   };
 }
 
+// type def for currently playing response
+interface SpotifyCurrentlyPlayingResponse {
+  is_playing: boolean;
+  item: SpotifyTrack;
+  currently_playing_type: string;
+}
+
+// type def for recently played response
 interface SpotifyRecentlyPlayedResponse {
   items: Array<{
     track: SpotifyTrack;
@@ -24,6 +32,27 @@ interface SpotifyError {
   message: string;
   details?: string;
 }
+
+// custom hook for fetching Spotify currently playing track
+export const useSpotifyCurrentlyPlaying = () => {
+  return useQuery<SpotifyCurrentlyPlayingResponse, SpotifyError>({
+    queryKey: ['spotify-currently-playing'],
+    queryFn: async () => {
+      const response = await fetch('/api/spotify-currently-playing');
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to fetch Spotify data');
+      }
+
+      return response.json();
+    },
+    refetchIntervalInBackground: true,
+    refetchInterval: 1 * 60 * 1000,
+    retry: 3,
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000), // exponential backoff
+  });
+};
 
 // custom hook for fetching Spotify last played track
 export const useSpotifyLastPlayed = () => {
@@ -39,19 +68,50 @@ export const useSpotifyLastPlayed = () => {
 
       return response.json();
     },
-    refetchIntervalInBackground: true, // Keep the data fresh in the background
-    refetchInterval: 1 * 60 * 1000, // Refetch every 1 minute
-    retry: 3, // TanStack Query will retry 3 times with exponential backoff
-    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000), // Exponential backoff, max 30s
+    refetchIntervalInBackground: true,
+    refetchInterval: 1 * 60 * 1000,
+    retry: 3,
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000), // exponential backoff
   });
 };
 
 // helper hook to get the formatted last played track data
 export const useFormattedSpotifyTrack = () => {
-  const { data, isLoading, error, isError } = useSpotifyLastPlayed();
+  // use the custom hook to fetch currently playing track first
+  const {
+    data: currentlyPlayingData,
+    isLoading: isCurrentlyPlayingLoading,
+    error: currentlyPlayingError,
+    isError: isCurrentlyPlayingError,
+  } = useSpotifyCurrentlyPlaying();
+  // if not, fetch the last played track
+  const {
+    data: lastPlayedData,
+    isLoading: lastPlayedIsLoading,
+    error: lastPlayedError,
+    isError: lastPlayedIsError,
+  } = useSpotifyLastPlayed();
 
-  const lastTrack = data?.items?.[0];
+  // if currently playing track is available, format it
+  const currentTrack = currentlyPlayingData?.item;
 
+  if (currentTrack) {
+    return {
+      track: {
+        name: currentTrack.name,
+        artist: currentTrack.artists.map((artist) => artist.name).join(', '),
+        album: currentTrack.album.name,
+        image: currentTrack.album.images[0]?.url || null,
+        spotifyUrl: currentTrack.external_urls.spotify,
+      },
+      isLoading: isCurrentlyPlayingLoading,
+      error: currentlyPlayingError,
+      isError: isCurrentlyPlayingError,
+      isCurrentlyPlaying: true,
+    };
+  }
+
+  const lastTrack = lastPlayedData?.items?.[0];
   return {
     track: lastTrack
       ? {
@@ -64,8 +124,8 @@ export const useFormattedSpotifyTrack = () => {
           spotifyUrl: lastTrack.track.external_urls.spotify,
         }
       : null,
-    isLoading,
-    error,
-    isError,
+    isLoading: lastPlayedIsLoading,
+    error: lastPlayedError,
+    isError: lastPlayedIsError,
   };
 };
