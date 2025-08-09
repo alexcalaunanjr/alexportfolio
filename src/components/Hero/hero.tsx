@@ -107,9 +107,7 @@ export function Hero() {
       {/* Avatar Container */}
       <div
         className={`relative z-20 transition-all duration-300 ${
-          isAvatarHovered
-            ? 'drop-shadow-[0_0_40px_rgba(203,213,225,0.8)]'
-            : 'drop-shadow-[0_0_5px_rgba(203,213,225,0.8)]'
+          isAvatarHovered ? 'drop-shadow-[0_0_40px_rgba(203,213,225,0.8)]' : 'drop-shadow-[0_0_5px_rgba(203,213,225,0.8)]'
         }`}
       >
         <Canvas
@@ -118,11 +116,6 @@ export function Hero() {
           className='z-20'
           performance={{ max: 1, min: 0.1 }}
           dpr={[1, 1.5]}
-          gl={{
-            antialias: false, // Disable for better performance
-            alpha: true,
-            powerPreference: 'high-performance',
-          }}
         >
           <ambientLight intensity={1.5} />
           <directionalLight position={[0, 10, 5]} intensity={5} />
