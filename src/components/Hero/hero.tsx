@@ -107,7 +107,9 @@ export function Hero() {
       {/* Avatar Container */}
       <div
         className={`relative z-20 transition-all duration-300 ${
-          isAvatarHovered ? 'drop-shadow-[0_0_40px_rgba(203,213,225,0.8)]' : 'drop-shadow-[0_0_5px_rgba(203,213,225,0.8)]'
+          isAvatarHovered
+            ? 'drop-shadow-[0_0_40px_rgba(203,213,225,0.8)]'
+            : 'drop-shadow-[0_0_5px_rgba(203,213,225,0.8)]'
         }`}
       >
         <Canvas
@@ -138,14 +140,22 @@ export function Hero() {
       <div className='absolute inset-0 pointer-events-none z-30'>
         {/* Top left text */}
         <div className='px-8 py-10 md:p-20 text-left'>
+          {/* Static fallback for immediate LCP - hidden once motion loads */}
+          <h1 className='text-3xl sm:text-5xl md:text-6xl font-bold text-white mb-4 motion-reduce:block hidden'>
+            Hi, I&apos;m{' '}
+            <span className='bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-sky-500'>
+              Alex Calaunan Jr
+            </span>
+          </h1>
+
           <motion.h1
-            className='text-3xl sm:text-5xl md:text-6xl font-bold text-white mb-4'
-            initial={{ y: 30, opacity: 0, filter: 'blur(10px)' }}
-            animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
+            className='text-3xl sm:text-5xl md:text-6xl font-bold text-white mb-4 motion-reduce:hidden'
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{
-              duration: 0.5,
+              duration: 0.3,
               ease: 'easeOut',
-              delay: isAvatarLoaded ? 0.3 : 1.2,
+              delay: 0,
             }}
           >
             Hi, I&apos;m{' '}
@@ -155,12 +165,12 @@ export function Hero() {
           </motion.h1>
           <motion.p
             className='text-sm md:text-lg text-gray-300 max-w-md md:max-w-lg font-mono'
-            initial={{ y: 30, opacity: 0, filter: 'blur(10px)' }}
-            animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
             transition={{
-              duration: 0.5,
+              duration: 0.4,
               ease: 'easeOut',
-              delay: isAvatarLoaded ? 0.5 : 1.4,
+              delay: 0.1,
             }}
           >
             <span className='border-b border-sky-500 font-bold animate-gradient-x'>
@@ -174,12 +184,12 @@ export function Hero() {
         {/* button to invite user to scroll */}
         <Link href={`#about_me`}>
           <motion.div
-            initial={{ y: 30, opacity: 0, filter: 'blur(10px)' }}
-            animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{
-              duration: 0.5,
+              duration: 0.3,
               ease: 'easeOut',
-              delay: isAvatarLoaded ? 0.7 : 1.6,
+              delay: 0.2,
             }}
             className='flex flex-col justify-center items-center gap-3 z-50 absolute bottom-50 sm:bottom-20 text-center left-1/2 transform -translate-x-1/2 pointer-events-auto text-slate-400 hover:text-white transition-colors duration-300'
           >
