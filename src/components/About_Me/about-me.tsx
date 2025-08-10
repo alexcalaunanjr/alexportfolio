@@ -28,7 +28,7 @@ export function AboutMe() {
 
         {/* ABOUT ME */}
         <AboutMeBento />
-        
+
         {/* TECH STACK */}
         <TechStackBento />
 

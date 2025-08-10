@@ -1,9 +1,21 @@
+'use client';
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
-import GitHubCalendar from 'react-github-calendar';
+import dynamic from 'next/dynamic';
 // icons
 import { SiGithub } from 'react-icons/si';
 import { ShineBorder } from '@/components/magicui/shine-border';
+
+// GitHub calendar needs client-side rendering
+const GitHubCalendar = dynamic(() => import('react-github-calendar'), {
+  ssr: false,
+  loading: () => (
+    <div className='flex items-center justify-center h-32 text-slate-400'>
+      Loading GitHub activity...
+    </div>
+  ),
+});
 
 export function GithubActivityBento() {
   return (

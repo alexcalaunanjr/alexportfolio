@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Link from 'next/link';
 import {
   Card,
@@ -11,12 +10,6 @@ import { ChevronDown, ChevronUp } from 'lucide-react';
 import { ShineBorder } from '@/components/magicui/shine-border';
 
 export function AboutMeBento() {
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  const toggleExpanded = () => {
-    setIsExpanded(!isExpanded);
-  };
-
   const fullText = (
     <>
       I&apos;ve always been passionate about tech, art and design, and UI/UX to
@@ -58,6 +51,7 @@ export function AboutMeBento() {
 
   const shortText =
     "I've always been passionate about tech, art and design, and UI/UX to improve the quality of life.";
+
   return (
     <Card className='relative col-span-1 md:col-span-8 bg-gradient-to-b from-transparent to-slate-700/70 hover:to-slate-600/70 border border-slate-500 hover:border-slate-300 py-6 gap-1 text-white transition-colors duration-300'>
       <ShineBorder shineColor={['#34d399', '#66a4ea', '#FFFFFF']} />
@@ -66,23 +60,10 @@ export function AboutMeBento() {
       </CardHeader>
       <CardContent className='flex flex-col items-center h-full px-6'>
         <CardDescription className='lg:text-base text-slate-200'>
-          {/* Show short text on mobile, full text on larger screens or when expanded */}
-          <span className='md:hidden'>{isExpanded ? fullText : shortText}</span>
-          <span className='hidden md:block'>{fullText}</span>
-        </CardDescription>
+          {/* Show short text on mobile, full text on larger screens */}
 
-        {/* View More button (mobile) */}
-        <button
-          onClick={toggleExpanded}
-          className='md:hidden mt-4 flex items-center gap-2 text-sky-600 hover:text-sky-500 transition-colors duration-200 text-sm hover:cursor-pointer'
-        >
-          <span>{isExpanded ? 'View Less' : 'View More'}</span>
-          {isExpanded ? (
-            <ChevronUp className='w-4 h-4' />
-          ) : (
-            <ChevronDown className='w-4 h-4' />
-          )}
-        </button>
+          <span className=''>{fullText}</span>
+        </CardDescription>
       </CardContent>
     </Card>
   );
