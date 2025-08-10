@@ -125,6 +125,7 @@ export const BottomNav = () => {
               <Link
                 href='/#hero'
                 className='font-semibold text-white whitespace-nowrap'
+                aria-label='Navigate to Hero section'
               >
                 <FaUserAstronaut
                   className={`transition-all duration-300 ${
@@ -139,6 +140,7 @@ export const BottomNav = () => {
               <Link
                 href='/#about_me'
                 className='font-semibold text-white whitespace-nowrap'
+                aria-label='Navigate to About Me section'
               >
                 <PiHandPeace
                   size={20}
@@ -153,6 +155,7 @@ export const BottomNav = () => {
               <Link
                 href='/#projects'
                 className='font-semibold text-white transition-colors duration-300 whitespace-nowrap'
+                aria-label='Navigate to Projects section'
               >
                 <LuAppWindowMac
                   size={20}
@@ -167,6 +170,7 @@ export const BottomNav = () => {
               <Link
                 href='/#contact'
                 className='font-semibold text-white transition-colors duration-300 whitespace-nowrap'
+                aria-label='Navigate to Contact section'
               >
                 <LuMail
                   size={20}
@@ -243,6 +247,10 @@ export const BottomNav = () => {
         {/* Floating Button */}
         <motion.button
           onClick={toggleMenu}
+          type='button'
+          aria-label='Toggle Menu'
+          aria-describedby='Toggle Menu'
+          role='button'
           className={`z-50 text-lg p-3 rounded-full ring-zinc-400 ring-1 text-white hover:cursor-pointer pointer-events-auto backdrop-blur-md hover:bg-blue-300/80 transition-all duration-300
                   ${
                     isOpen

@@ -9,6 +9,10 @@ export const InteractiveHoverButton = React.forwardRef<
   return (
     <button
       ref={ref}
+      type='button'
+      aria-label={children as string}
+      aria-describedby={children as string}
+      role='button'
       className={cn(
         'group relative w-auto cursor-pointer overflow-hidden rounded-full border bg-background p-2 px-6 text-center font-semibold',
         className

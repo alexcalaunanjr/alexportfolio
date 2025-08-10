@@ -6,7 +6,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { ChevronDown, ChevronUp } from 'lucide-react';
 import { ShineBorder } from '@/components/magicui/shine-border';
 
 export function AboutMeBento() {
@@ -48,9 +47,6 @@ export function AboutMeBento() {
       </p>
     </>
   );
-
-  const shortText =
-    "I've always been passionate about tech, art and design, and UI/UX to improve the quality of life.";
 
   return (
     <Card className='relative col-span-1 md:col-span-8 bg-gradient-to-b from-transparent to-slate-700/70 hover:to-slate-600/70 border border-slate-500 hover:border-slate-300 py-6 gap-1 text-white transition-colors duration-300'>

@@ -25,6 +25,7 @@ export function GithubActivityBento() {
         <CardTitle className='md:text-xl text-white'>GitHub Activity</CardTitle>
         <Link
           href={'https://github.com/alexcalaunanjr'}
+          aria-label='GitHub profile'
           target='_blank'
           rel='noopener noreferrer'
         >
@@ -33,6 +34,7 @@ export function GithubActivityBento() {
       </CardHeader>
       <Link
         href={'https://github.com/alexcalaunanjr'}
+        aria-label='GitHub activity calendar'
         target='_blank'
         rel='noopener noreferrer'
       >

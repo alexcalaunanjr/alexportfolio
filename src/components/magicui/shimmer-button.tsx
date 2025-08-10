@@ -48,7 +48,7 @@ export const ShimmerButton = React.forwardRef<
           className,
         )}
         ref={ref}
-        type="button"
+        type='button'
         {...props}
       >
         {/* spark container */}

@@ -87,6 +87,7 @@ export function SpotifyLastPlayedBento() {
             href={
               'https://open.spotify.com/user/boiboikikoy?si=5d268ddc747c4818'
             }
+            aria-label='Spotify profile'
             target='_blank'
             rel='noopener noreferrer'
           >
@@ -96,6 +97,7 @@ export function SpotifyLastPlayedBento() {
         <CardContent className='flex flex-col items-start h-full'>
           <Link
             href={track.spotifyUrl}
+            aria-label='Currently playing track'
             target='_blank'
             rel='noopener noreferrer'
             className='w-full hover:opacity-80 transition-opacity duration-200'
@@ -113,9 +115,9 @@ export function SpotifyLastPlayedBento() {
                 </div>
               )}
               <div className='flex-1 min-w-0'>
-                <h4 className='text-white font-medium truncate text-lg'>
+                <h2 className='text-white font-medium truncate text-lg'>
                   {track.name}
-                </h4>
+                </h2>
                 <p className='text-slate-300 text-sm truncate'>
                   {track.artist}
                 </p>
@@ -132,6 +134,7 @@ export function SpotifyLastPlayedBento() {
               href={
                 'https://open.spotify.com/user/boiboikikoy?si=5d268ddc747c4818'
               }
+              aria-label='Spotify profile'
               target='_blank'
               rel='noopener noreferrer'
             >
@@ -156,6 +159,7 @@ export function SpotifyLastPlayedBento() {
         <CardTitle className='md:text-xl'>Last Played Track</CardTitle>
         <Link
           href={'https://open.spotify.com/user/boiboikikoy?si=5d268ddc747c4818'}
+          aria-label='Spotify profile'
           target='_blank'
           rel='noopener noreferrer'
         >
@@ -165,6 +169,7 @@ export function SpotifyLastPlayedBento() {
       <CardContent className='flex flex-col items-start h-full'>
         <Link
           href={track.spotifyUrl}
+          aria-label='Currently playing track'
           target='_blank'
           rel='noopener noreferrer'
           className='w-full hover:opacity-80 transition-opacity duration-200'
@@ -182,9 +187,9 @@ export function SpotifyLastPlayedBento() {
               </div>
             )}
             <div className='flex-1 min-w-0'>
-              <h4 className='text-white font-medium truncate text-lg'>
+              <h2 className='text-white font-medium truncate text-lg'>
                 {track.name}
-              </h4>
+              </h2>
               <p className='text-slate-300 text-sm truncate'>{track.artist}</p>
               <p className='text-slate-400 text-sm truncate mt-1'>
                 {track.album}
@@ -199,6 +204,7 @@ export function SpotifyLastPlayedBento() {
             href={
               'https://open.spotify.com/user/boiboikikoy?si=5d268ddc747c4818'
             }
+            aria-label='Spotify profile'
             target='_blank'
             rel='noopener noreferrer'
           >

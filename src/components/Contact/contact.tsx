@@ -32,7 +32,8 @@ import { ShimmerButton } from '../magicui/shimmer-button';
 // query
 import { useSendEmail } from '@/hooks/use-send-email';
 import { useVerifyRecaptcha } from '@/hooks/use-verify-recaptcha';
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
+import { getClientNonce } from '@/lib/nonce';
 
 // Declare global for Google reCAPTCHA with proper typing
 declare global {
@@ -73,6 +74,9 @@ export function Contact() {
     }>
   >([]);
 
+  const [isRecaptchaLoaded, setIsRecaptchaLoaded] = useState(false);
+  const [shouldLoadRecaptcha, setShouldLoadRecaptcha] = useState(false);
+
   // Generate particles only on client-side to avoid hydration mismatch
   useEffect(() => {
     const newParticles = Array.from({ length: 100 }, (_, i) => ({
@@ -95,14 +99,40 @@ export function Contact() {
     },
   });
 
-  // useEffect to load reCAPTCHA script
+  // Function to load reCAPTCHA when needed
+  const loadRecaptcha = useCallback(() => {
+    if (isRecaptchaLoaded || !process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY)
+      return;
+
+    setShouldLoadRecaptcha(true);
+  }, [isRecaptchaLoaded]);
+
+  // useEffect to load reCAPTCHA script only when needed
   useEffect(() => {
-    // Only load if not already loaded
-    if (!window.grecaptcha) {
+    if (
+      shouldLoadRecaptcha &&
+      !window.grecaptcha &&
+      process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+    ) {
       const script = document.createElement('script');
       script.src = `https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`;
       script.async = true;
       script.defer = true;
+
+      // Add nonce for CSP compliance
+      const nonce = getClientNonce();
+      if (nonce) {
+        script.nonce = nonce;
+      }
+
+      // Handle script loading
+      script.onload = () => {
+        setIsRecaptchaLoaded(true);
+      };
+
+      script.onerror = () => {
+        console.warn('Failed to load reCAPTCHA script');
+      };
 
       document.head.appendChild(script);
 
@@ -113,7 +143,7 @@ export function Contact() {
         }
       };
     }
-  }, []);
+  }, [shouldLoadRecaptcha]);
 
   // TANSTACK QUERY MUTATION: Send email mutation
   const sendEmailMutation = useSendEmail({
@@ -153,12 +183,9 @@ export function Contact() {
         throw new Error('reCAPTCHA not loaded');
       }
 
-      console.log('🔄 Executing reCAPTCHA...');
-
       // First, get the reCAPTCHA token
       const token = await new Promise<string>((resolve, reject) => {
         window.grecaptcha.ready(() => {
-          console.log('✅ reCAPTCHA ready');
           window.grecaptcha
             .execute(siteKey, {
               action: 'submit',
@@ -167,18 +194,14 @@ export function Contact() {
               resolve(token);
             })
             .catch((error) => {
-              console.error('❌ Token generation failed:', error);
               reject(error);
             });
         });
       });
 
-      console.log('🔄 Verifying token...');
       // Verify the token using TanStack Query
       await recaptchaVerificationMutation.mutateAsync({ token });
     } catch (error) {
-      console.error('❌ Form submission error:', error);
-
       // Set appropriate error message
       if (error instanceof Error) {
         if (error.message.includes('reCAPTCHA')) {
@@ -283,6 +306,7 @@ export function Contact() {
                               <Input
                                 placeholder='Your name'
                                 className='bg-black/80 border-slate-600 text-white max-md:text-sm placeholder:text-slate-400 focus:border-indigo-400'
+                                onFocus={loadRecaptcha}
                                 {...field}
                               />
                             </FormControl>
