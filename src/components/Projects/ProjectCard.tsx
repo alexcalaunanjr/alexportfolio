@@ -202,7 +202,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
               <div className='mt-2 flex flex-wrap gap-4'>
                 {project.technologies.map((tech) => (
                   <Tooltip key={tech.title} delayDuration={100}>
-                    <TooltipTrigger className='flex items-center justify-center'>
+                    <TooltipTrigger
+                      className='flex items-center justify-center'
+                      aria-label={`${tech.title} technology`}
+                    >
                       <div className='text-slate-400 hover:text-white transition-colors duration-300'>
                         {tech.icon}
                       </div>

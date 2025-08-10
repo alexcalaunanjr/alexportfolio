@@ -73,7 +73,10 @@ export function TechStackBento() {
         <Marquee className='[--duration:40s] [--gap:2rem] md:[--gap:3rem]'>
           {techStackIcons.map((tech, index) => (
             <Tooltip key={index} delayDuration={100}>
-              <TooltipTrigger className='flex items-center justify-center'>
+              <TooltipTrigger
+                className='flex items-center justify-center'
+                aria-label={`${tech.title} technology`}
+              >
                 <div className='flex flex-col items-center text-slate-200 hover:text-white transition-colors duration-300'>
                   {tech.icon}
                   <span className='block md:hidden text-xs text-center mt-1'>

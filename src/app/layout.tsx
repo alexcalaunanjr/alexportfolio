@@ -7,6 +7,8 @@ import { Toaster } from '@/components/ui/sonner';
 // analytics
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+// nonce
+import { getNonce } from '@/lib/server-nonce';
 
 // fonts
 const geistSans = Geist({
@@ -39,13 +41,19 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const nonce = await getNonce();
+
   return (
     <html lang='en'>
+      <head>
+        {/* Include nonce in meta tag for client-side access */}
+        <meta name='csp-nonce' content={nonce} />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${cairo.className} ${cabin.variable} antialiased`}
       >
