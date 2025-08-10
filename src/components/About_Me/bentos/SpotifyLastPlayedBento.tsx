@@ -1,3 +1,5 @@
+'use client';
+
 import { useFormattedSpotifyTrack } from '@/hooks/useSpotifyLastPlayed';
 import Image from 'next/image';
 import Link from 'next/link';
