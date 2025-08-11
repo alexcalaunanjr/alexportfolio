@@ -34,8 +34,6 @@ export function GithubActivityBento() {
         scrollContainer.scrollLeft =
           scrollContainer.scrollWidth - scrollContainer.clientWidth;
 
-        console.log('Scrolled GitHub calendar to latest contributions');
-
         // Reset scroll behavior after scrolling
         setTimeout(() => {
           scrollContainer.style.scrollBehavior = 'auto';
